@@ -4,7 +4,7 @@
 #
 Name     : dbus
 Version  : 1.9.10
-Release  : 26
+Release  : 27
 URL      : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Source0  : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Summary  : Free desktop message bus
