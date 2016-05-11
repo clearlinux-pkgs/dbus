@@ -4,7 +4,7 @@
 #
 Name     : dbus
 Version  : 1.9.10
-Release  : 29
+Release  : 30
 URL      : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Source0  : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Summary  : Free desktop message bus
@@ -33,6 +33,7 @@ Patch1: 0001-Add-support-for-ignore_missing-attributed-in-include.patch
 Patch2: 0002-Stateless.patch
 Patch3: malloc_trim.patch
 Patch4: fdpass-test-reduce-number-of-fds.patch
+Patch5: memory.patch
 
 %description
 Sections in this file describe:
@@ -74,6 +75,7 @@ Group: Development
 Requires: dbus-lib
 Requires: dbus-bin
 Requires: dbus-data
+Provides: dbus-devel
 
 %description dev
 dev components for the dbus package.
@@ -85,14 +87,6 @@ Group: Documentation
 
 %description doc
 doc components for the dbus package.
-
-
-%package extras
-Summary: extras components for the dbus package.
-Group: Default
-
-%description extras
-extras components for the dbus package.
 
 
 %package lib
@@ -111,15 +105,19 @@ lib components for the dbus package.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %configure --disable-static --sysconfdir=/usr/share \
 --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-doxygen-docs \
 --disable-xml-docs
-make V=1 %{?_smp_mflags}
+make V=1  %{?_smp_mflags}
 
 %check
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
@@ -131,10 +129,10 @@ rm -rf %{buildroot}
 
 %files bin
 %defattr(-,root,root,-)
-%exclude /usr/bin/dbus-launch
 %exclude /usr/libexec/dbus-daemon-launch-helper
 /usr/bin/dbus-cleanup-sockets
 /usr/bin/dbus-daemon
+/usr/bin/dbus-launch
 /usr/bin/dbus-monitor
 /usr/bin/dbus-run-session
 /usr/bin/dbus-send
@@ -180,10 +178,6 @@ rm -rf %{buildroot}
 %files doc
 %defattr(-,root,root,-)
 %doc /usr/share/doc/dbus/*
-
-%files extras
-%defattr(-,root,root,-)
-/usr/bin/dbus-launch
 
 %files lib
 %defattr(-,root,root,-)
