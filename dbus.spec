@@ -4,7 +4,7 @@
 #
 Name     : dbus
 Version  : 1.9.10
-Release  : 30
+Release  : 31
 URL      : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Source0  : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Summary  : Free desktop message bus
@@ -89,6 +89,14 @@ Group: Documentation
 doc components for the dbus package.
 
 
+%package extras
+Summary: extras components for the dbus package.
+Group: Default
+
+%description extras
+extras components for the dbus package.
+
+
 %package lib
 Summary: lib components for the dbus package.
 Group: Libraries
@@ -129,10 +137,10 @@ rm -rf %{buildroot}
 
 %files bin
 %defattr(-,root,root,-)
+%exclude /usr/bin/dbus-launch
 %exclude /usr/libexec/dbus-daemon-launch-helper
 /usr/bin/dbus-cleanup-sockets
 /usr/bin/dbus-daemon
-/usr/bin/dbus-launch
 /usr/bin/dbus-monitor
 /usr/bin/dbus-run-session
 /usr/bin/dbus-send
@@ -178,6 +186,10 @@ rm -rf %{buildroot}
 %files doc
 %defattr(-,root,root,-)
 %doc /usr/share/doc/dbus/*
+
+%files extras
+%defattr(-,root,root,-)
+/usr/bin/dbus-launch
 
 %files lib
 %defattr(-,root,root,-)
