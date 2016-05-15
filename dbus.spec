@@ -4,7 +4,7 @@
 #
 Name     : dbus
 Version  : 1.9.10
-Release  : 33
+Release  : 34
 URL      : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Source0  : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Summary  : Free desktop message bus
@@ -119,7 +119,6 @@ lib components for the dbus package.
 %build
 %configure --disable-static --sysconfdir=/usr/share \
 --with-systemdunitdir=/usr/lib/systemd/system \
---disable-doxygen-docs \
 --disable-xml-docs
 make V=1  %{?_smp_mflags}
 
