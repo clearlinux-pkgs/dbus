@@ -4,7 +4,7 @@
 #
 Name     : dbus
 Version  : 1.9.10
-Release  : 32
+Release  : 33
 URL      : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Source0  : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Summary  : Free desktop message bus
@@ -16,6 +16,7 @@ Requires: dbus-lib
 Requires: dbus-data
 Requires: dbus-doc
 BuildRequires : cmake
+BuildRequires : doxygen
 BuildRequires : expat-dev
 BuildRequires : gettext
 BuildRequires : libxslt-bin
