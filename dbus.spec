@@ -4,7 +4,7 @@
 #
 Name     : dbus
 Version  : 1.9.10
-Release  : 35
+Release  : 36
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Summary  : Free desktop message bus
@@ -29,7 +29,9 @@ BuildRequires : glibc-libc32
 BuildRequires : libxslt-bin
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkgconfig(32ice)
+BuildRequires : pkgconfig(32libsystemd)
 BuildRequires : pkgconfig(32sm)
+BuildRequires : pkgconfig(32systemd)
 BuildRequires : pkgconfig(32x11)
 BuildRequires : pkgconfig(dbus-glib-1)
 BuildRequires : pkgconfig(glib-2.0)
@@ -171,8 +173,7 @@ export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
 %configure --disable-static --sysconfdir=/usr/share \
 --with-systemdunitdir=/usr/lib/systemd/system \
---disable-xml-docs --disable-systemd \
---without-dbus-glib \
+--disable-xml-docs --without-dbus-glib \
 --disable-tests --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
