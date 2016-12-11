@@ -1,0 +1,3 @@
+--disable-systemd
+--without-dbus-glib
+--disable-tests

@@ -4,23 +4,33 @@
 #
 Name     : dbus
 Version  : 1.9.10
-Release  : 34
-URL      : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
-Source0  : http://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
+Release  : 35
+URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
+Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Summary  : Free desktop message bus
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+
 Requires: dbus-bin
 Requires: dbus-config
+Requires: dbus-autostart
 Requires: dbus-lib
 Requires: dbus-data
 Requires: dbus-doc
 BuildRequires : cmake
 BuildRequires : doxygen
 BuildRequires : expat-dev
+BuildRequires : expat-dev32
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
 BuildRequires : gettext
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
 BuildRequires : libxslt-bin
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkgconfig(32ice)
+BuildRequires : pkgconfig(32sm)
+BuildRequires : pkgconfig(32x11)
 BuildRequires : pkgconfig(dbus-glib-1)
 BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(ice)
@@ -43,6 +53,14 @@ Sections in this file describe:
 - version numbers
 - options to the configure script
 - ABI stability policy
+
+%package autostart
+Summary: autostart components for the dbus package.
+Group: Default
+
+%description autostart
+autostart components for the dbus package.
+
 
 %package bin
 Summary: bin components for the dbus package.
@@ -82,6 +100,17 @@ Provides: dbus-devel
 dev components for the dbus package.
 
 
+%package dev32
+Summary: dev32 components for the dbus package.
+Group: Default
+Requires: dbus-lib32
+Requires: dbus-bin
+Requires: dbus-data
+
+%description dev32
+dev32 components for the dbus package.
+
+
 %package doc
 Summary: doc components for the dbus package.
 Group: Documentation
@@ -108,6 +137,16 @@ Requires: dbus-config
 lib components for the dbus package.
 
 
+%package lib32
+Summary: lib32 components for the dbus package.
+Group: Default
+Requires: dbus-data
+Requires: dbus-config
+
+%description lib32
+lib32 components for the dbus package.
+
+
 %prep
 %setup -q -n dbus-1.9.10
 %patch1 -p1
@@ -115,14 +154,30 @@ lib components for the dbus package.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+pushd ..
+cp -a dbus-1.9.10 build32
+popd
 
 %build
+export LANG=C
 %configure --disable-static --sysconfdir=/usr/share \
 --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs
 make V=1  %{?_smp_mflags}
 
+pushd ../build32/
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+export LDFLAGS="$LDFLAGS -m32"
+%configure --disable-static --sysconfdir=/usr/share \
+--with-systemdunitdir=/usr/lib/systemd/system \
+--disable-xml-docs --disable-systemd \
+--without-dbus-glib \
+--disable-tests --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make V=1  %{?_smp_mflags}
+popd
 %check
+export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost
@@ -130,10 +185,25 @@ make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
 rm -rf %{buildroot}
+pushd ../build32/
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do mv $i 32$i ; done
+popd
+fi
+popd
 %make_install
 
 %files
 %defattr(-,root,root,-)
+
+%files autostart
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/dbus.target.wants/dbus.socket
+/usr/lib/systemd/system/multi-user.target.wants/dbus.service
+/usr/lib/systemd/system/sockets.target.wants/dbus.socket
 
 %files bin
 %defattr(-,root,root,-)
@@ -149,11 +219,11 @@ rm -rf %{buildroot}
 
 %files config
 %defattr(-,root,root,-)
+%exclude /usr/lib/systemd/system/dbus.target.wants/dbus.socket
+%exclude /usr/lib/systemd/system/multi-user.target.wants/dbus.service
+%exclude /usr/lib/systemd/system/sockets.target.wants/dbus.socket
 /usr/lib/systemd/system/dbus.service
 /usr/lib/systemd/system/dbus.socket
-/usr/lib/systemd/system/dbus.target.wants/dbus.socket
-/usr/lib/systemd/system/multi-user.target.wants/dbus.service
-/usr/lib/systemd/system/sockets.target.wants/dbus.socket
 
 %files data
 %defattr(-,root,root,-)
@@ -179,9 +249,15 @@ rm -rf %{buildroot}
 /usr/include/dbus-1.0/dbus/dbus-threads.h
 /usr/include/dbus-1.0/dbus/dbus-types.h
 /usr/include/dbus-1.0/dbus/dbus.h
-/usr/lib64/*.so
+/usr/lib32/dbus-1.0/include/dbus/dbus-arch-deps.h
 /usr/lib64/dbus-1.0/include/dbus/dbus-arch-deps.h
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libdbus-1.so
+/usr/lib64/pkgconfig/dbus-1.pc
+
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libdbus-1.so
+/usr/lib32/pkgconfig/32dbus-1.pc
 
 %files doc
 %defattr(-,root,root,-)
@@ -193,4 +269,10 @@ rm -rf %{buildroot}
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libdbus-1.so.3
+/usr/lib64/libdbus-1.so.3.11.3
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libdbus-1.so.3
+/usr/lib32/libdbus-1.so.3.11.3
