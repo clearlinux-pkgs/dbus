@@ -4,7 +4,6 @@
 #
 3.6
 libapparmor
-32glib-2.0
 32libapparmor
 32valgrind
 32dbus-glib-1

@@ -4,7 +4,7 @@
 #
 Name     : dbus
 Version  : 1.9.10
-Release  : 36
+Release  : 37
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
 Summary  : Free desktop message bus
@@ -28,6 +28,7 @@ BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : libxslt-bin
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkgconfig(32glib-2.0)
 BuildRequires : pkgconfig(32ice)
 BuildRequires : pkgconfig(32libsystemd)
 BuildRequires : pkgconfig(32sm)
@@ -108,6 +109,7 @@ Group: Default
 Requires: dbus-lib32
 Requires: dbus-bin
 Requires: dbus-data
+Requires: dbus-dev
 
 %description dev32
 dev32 components for the dbus package.
@@ -168,9 +170,10 @@ export LANG=C
 make V=1  %{?_smp_mflags}
 
 pushd ../build32/
-export CFLAGS="$CFLAGS -m32"
-export CXXFLAGS="$CXXFLAGS -m32"
-export LDFLAGS="$LDFLAGS -m32"
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export CFLAGS="$CFLAGS -m32 "
+export CXXFLAGS="$CXXFLAGS -m32 "
+export LDFLAGS="$LDFLAGS -m32 "
 %configure --disable-static --sysconfdir=/usr/share \
 --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs --without-dbus-glib \
@@ -191,7 +194,7 @@ pushd ../build32/
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
 then
 pushd %{buildroot}/usr/lib32/pkgconfig
-for i in *.pc ; do mv $i 32$i ; done
+for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
 popd
@@ -259,6 +262,7 @@ popd
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so
 /usr/lib32/pkgconfig/32dbus-1.pc
+/usr/lib32/pkgconfig/dbus-1.pc
 
 %files doc
 %defattr(-,root,root,-)
