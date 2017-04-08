@@ -1,5 +1,2 @@
-0001-Add-support-for-ignore_missing-attributed-in-include.patch
-0002-Stateless.patch
 malloc_trim.patch
-fdpass-test-reduce-number-of-fds.patch
 memory.patch
