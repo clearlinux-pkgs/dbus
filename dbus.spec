@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.10.18
-Release  : 38
+Release  : 39
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.18.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.18.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.18.tar.gz.asc
@@ -160,10 +160,12 @@ popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1491692209
+export SOURCE_DATE_EPOCH=1491696889
 %configure --disable-static --sysconfdir=/usr/share \
 --with-systemdunitdir=/usr/lib/systemd/system \
---disable-xml-docs
+--disable-xml-docs \
+--enable-systemd \
+--enable-user-session
 make V=1  %{?_smp_mflags}
 
 pushd ../build32/
@@ -173,7 +175,9 @@ export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
 %configure --disable-static --sysconfdir=/usr/share \
 --with-systemdunitdir=/usr/lib/systemd/system \
---disable-xml-docs --without-dbus-glib \
+--disable-xml-docs \
+--enable-systemd \
+--enable-user-session --without-dbus-glib \
 --disable-tests  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
@@ -185,7 +189,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1491692209
+export SOURCE_DATE_EPOCH=1491696889
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -227,6 +231,9 @@ popd
 %exclude /usr/lib/systemd/system/sockets.target.wants/dbus.socket
 /usr/lib/systemd/system/dbus.service
 /usr/lib/systemd/system/dbus.socket
+/usr/lib/systemd/user/dbus.service
+/usr/lib/systemd/user/dbus.socket
+/usr/lib/systemd/user/sockets.target.wants/dbus.socket
 
 %files data
 %defattr(-,root,root,-)
