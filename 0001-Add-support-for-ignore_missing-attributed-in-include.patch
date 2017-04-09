@@ -65,6 +65,37 @@ index ee2d4e7..513a55c 100644
               DBusError         *error)
  {
    DBusString filename;
+@@ -2238,13 +2263,26 @@ include_dir (BusConfigParser   *parser,
+     }
+ 
+   retval = FALSE;
+-  
+-  dir = _dbus_directory_open (dirname, error);
++
++  dbus_error_init (&tmp_error);
++
++  dir = _dbus_directory_open (dirname, &tmp_error);
+ 
+   if (dir == NULL)
+-    goto failed;
++    {
++      if (dbus_error_has_name (&tmp_error, DBUS_ERROR_FILE_NOT_FOUND) &&
++          ignore_missing)
++        {
++          dbus_error_free (&tmp_error);
++          goto success;
++        }
++      else
++        {
++          dbus_move_error (&tmp_error, error);
++          goto failed;
++        }
++    }
+ 
+-  dbus_error_init (&tmp_error);
+   while (_dbus_directory_get_next_file (dir, &filename, &tmp_error))
+     {
+       DBusString full_path;
 @@ -2312,6 +2350,7 @@ include_dir (BusConfigParser   *parser,
        goto failed;
      }
