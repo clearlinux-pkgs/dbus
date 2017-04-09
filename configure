@@ -1,5 +1,3 @@
 --sysconfdir=/usr/share
 --with-systemdunitdir=/usr/lib/systemd/system
 --disable-xml-docs
---enable-systemd
---enable-user-session
