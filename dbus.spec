@@ -5,12 +5,12 @@
 # Source0 file verified with key 0x4DE8FF2A63C7CC90 (smcv@debian.org)
 #
 Name     : dbus
-Version  : 1.9.10
-Release  : 38
-URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
-Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz
-Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.9.10.tar.gz.asc
-Summary  : Free desktop message bus
+Version  : 1.10.18
+Release  : 39
+URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.18.tar.gz
+Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.18.tar.gz
+Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.18.tar.gz.asc
+Summary  : Free desktop message bus (uninstalled copy)
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+
 Requires: dbus-bin
@@ -37,7 +37,6 @@ BuildRequires : pkgconfig(32libsystemd)
 BuildRequires : pkgconfig(32sm)
 BuildRequires : pkgconfig(32systemd)
 BuildRequires : pkgconfig(32x11)
-BuildRequires : pkgconfig(dbus-glib-1)
 BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(ice)
 BuildRequires : pkgconfig(libsystemd)
@@ -46,11 +45,9 @@ BuildRequires : pkgconfig(systemd)
 BuildRequires : pkgconfig(valgrind)
 BuildRequires : pkgconfig(x11)
 BuildRequires : xmlto
-Patch1: 0001-Add-support-for-ignore_missing-attributed-in-include.patch
-Patch2: 0002-Stateless.patch
-Patch3: malloc_trim.patch
-Patch4: fdpass-test-reduce-number-of-fds.patch
-Patch5: memory.patch
+Patch1: 0001-Add-support-for-ignore_missing-attribute-in-included.patch
+Patch2: malloc_trim.patch
+Patch3: memory.patch
 
 %description
 Sections in this file describe:
@@ -155,24 +152,28 @@ lib32 components for the dbus package.
 
 
 %prep
-%setup -q -n dbus-1.9.10
+%setup -q -n dbus-1.10.18
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
 pushd ..
-cp -a dbus-1.9.10 build32
+cp -a dbus-1.10.18 build32
 popd
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1491697932
-%configure --disable-static --sysconfdir=/usr/share \
---with-systemdunitdir=/usr/lib/systemd/system \
+export SOURCE_DATE_EPOCH=1493111370
+%configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
---enable-user-session
+--enable-user-session \
+--enable-epoll \
+--with-system-socket=/run/dbus/system_bus_socket \
+--with-system-pid-file=/run/dbus/pid \
+--with-console-auth-dir=/run/console/
 make V=1  %{?_smp_mflags}
 
 pushd ../build32/
@@ -180,11 +181,14 @@ export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-%configure --disable-static --sysconfdir=/usr/share \
---with-systemdunitdir=/usr/lib/systemd/system \
+%configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
---enable-user-session --without-dbus-glib \
+--enable-user-session \
+--enable-epoll \
+--with-system-socket=/run/dbus/system_bus_socket \
+--with-system-pid-file=/run/dbus/pid \
+--with-console-auth-dir=/run/console/ --without-dbus-glib \
 --disable-tests  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
@@ -192,11 +196,11 @@ popd
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1491697932
+export SOURCE_DATE_EPOCH=1493111370
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -228,6 +232,7 @@ popd
 /usr/bin/dbus-run-session
 /usr/bin/dbus-send
 /usr/bin/dbus-test-tool
+/usr/bin/dbus-update-activation-environment
 /usr/bin/dbus-uuidgen
 
 %files config
@@ -237,6 +242,9 @@ popd
 %exclude /usr/lib/systemd/system/sockets.target.wants/dbus.socket
 /usr/lib/systemd/system/dbus.service
 /usr/lib/systemd/system/dbus.socket
+/usr/lib/systemd/user/dbus.service
+/usr/lib/systemd/user/dbus.socket
+/usr/lib/systemd/user/sockets.target.wants/dbus.socket
 
 %files data
 %defattr(-,root,root,-)
@@ -284,9 +292,9 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libdbus-1.so.3
-/usr/lib64/libdbus-1.so.3.11.3
+/usr/lib64/libdbus-1.so.3.14.11
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so.3
-/usr/lib32/libdbus-1.so.3.11.3
+/usr/lib32/libdbus-1.so.3.14.11
