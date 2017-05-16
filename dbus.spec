@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.10.18
-Release  : 39
+Release  : 40
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.18.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.18.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.18.tar.gz.asc
