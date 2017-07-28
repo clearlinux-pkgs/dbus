@@ -1,0 +1,58 @@
+Configure miss: whether va_lists can be copied by value
+Configure miss: broken poll
+Configure miss: ws2tcpip.h usability
+Configure miss: ws2tcpip.h presence
+Configure miss: ws2tcpip.h
+Configure miss: sys/syslimits.h usability
+Configure miss: sys/syslimits.h presence
+Configure miss: sys/syslimits.h
+Configure miss: struct cmsgcred
+Configure miss: struct unpcbid.unp_pid
+Configure miss: getpeerucred
+Configure miss: getpeereid
+Configure miss: APPARMOR
+Configure miss: sys/event.h usability
+Configure miss: sys/event.h presence
+Configure miss: sys/event.h
+Configure miss: launch.h usability
+Configure miss: launch.h presence
+Configure miss: launch.h
+Configure miss: launchctl
+Configure miss: audit_log_user_avc_message in -laudit
+Configure miss: ADT API
+Configure miss: ducktype
+Configure miss: yelp-build
+Configure miss: whether to build Ducktype documentation
+Configure miss: whether to build XML documentation
+Configure miss: i686-generic-linux-gnu-objdump
+Configure miss: i686-generic-linux-gnu-dlltool
+Configure miss: i686-generic-linux-gnu-strip
+Configure miss: i686-generic-linux-gnu-mt
+Configure miss: i686-generic-linux-gnu-pkg-config
+Configure miss: i686-generic-linux-gnu-windres
+Configure miss: whether va_lists can be copied by value
+Configure miss: broken poll
+Configure miss: ws2tcpip.h usability
+Configure miss: ws2tcpip.h presence
+Configure miss: ws2tcpip.h
+Configure miss: sys/syslimits.h usability
+Configure miss: sys/syslimits.h presence
+Configure miss: sys/syslimits.h
+Configure miss: struct cmsgcred
+Configure miss: struct unpcbid.unp_pid
+Configure miss: getpeerucred
+Configure miss: getpeereid
+Configure miss: APPARMOR
+Configure miss: sys/event.h usability
+Configure miss: sys/event.h presence
+Configure miss: sys/event.h
+Configure miss: launch.h usability
+Configure miss: launch.h presence
+Configure miss: launch.h
+Configure miss: launchctl
+Configure miss: audit_log_user_avc_message in -laudit
+Configure miss: ADT API
+Configure miss: ducktype
+Configure miss: yelp-build
+Configure miss: whether to build Ducktype documentation
+Configure miss: whether to build XML documentation

@@ -1,3 +1,53 @@
+D-Bus 1.10.22 (2017-07-27)
+==
+
+The “roof terrace” release.
+
+Fixes:
+
+• dbus_message_iter_append_basic() no longer leaks memory if it fails to
+  append a file descriptor to a message. (fd.o #101568, Simon McVittie)
+
+• dbus_message_iter_open_container() no longer leaks memory if it runs out
+  of memory. (fd.o #101568, Simon McVittie)
+
+• dbus_message_append_args_valist() no longer leaks memory if given an
+  unsupported type. This situation is still considered to be a programming
+  error which needs to be corrected by the user of libdbus.
+  (fd.o #101568, Simon McVittie)
+
+• Wrap test-pending-call-disconnected with dbus-run-session so that it can
+  pass in environments that are not already running a D-Bus session bus,
+  fixing a build-time test regression in 1.10.20
+  (fd.o #101698, Simon McVittie)
+
+• Ensure that tests fail if they would otherwise have tried to connect to
+  the real session bus (fd.o #101698, Simon McVittie)
+
+• Make build-time tests cope with finding Python 3, but not Python 2
+  (fd.o #101716, Simon McVittie)
+
+D-Bus 1.10.20 (2017-06-29)
+==
+
+The “suggesting a delivery gone horribly wrong” release.
+
+Fixes:
+
+• Fix a reference leak when blocking on a pending call on a connection
+  that has been disconnected (fd.o #101481, Shin-ichi MORITA)
+
+• Don't put timestamps in the Doxygen-generated documentation, for
+  closer-to-reproducible builds (fd.o #100692, Simon McVittie)
+
+• Avoid an assertion failure when connecting to a semicolon-separated
+  series of addresses, one of which fails (fd.o #101257, Simon McVittie)
+
+Documentation:
+
+• Update git URIs in HACKING document to sync up with cgit.freedesktop.org
+  (fd.o #100715, Simon McVittie)
+
 D-Bus 1.10.18 (2017-04-05)
 ==
 
