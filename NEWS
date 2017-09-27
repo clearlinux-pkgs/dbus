@@ -1,3 +1,29 @@
+D-Bus 1.10.24 (2017-09-25)
+==
+
+The “pirate wizard” release.
+
+Fixes:
+
+• When parsing dbus-daemon configuration, tell Expat not to use
+  cryptographic-quality entropy as a salt for its hash tables: we trust
+  the configuration files, so we are not concerned about algorithmic
+  complexity attacks via hash table collisions. This prevents
+  dbus-daemon --system from holding up the boot process (and causing
+  early-boot system services like systemd, logind, networkd to time
+  out) on entropy-starved embedded systems.
+  (fd.o #101858, Simon McVittie)
+
+• Increase listen() backlog of AF_UNIX sockets to the maximum possible,
+  minimizing failed connections under heavy load
+  (fd.o #95264, Lennart Poettering) (backported from 1.11.4)
+
+• Avoid a -Werror=declaration-after-statement build failure on Solaris
+  (fd.o #102145, Alan Coopersmith)
+
+• When using the Monitoring interface, match messages' destinations
+  (fd.o #92074, Simon McVittie) (backported from 1.11.0)
+
 D-Bus 1.10.22 (2017-07-27)
 ==
 
