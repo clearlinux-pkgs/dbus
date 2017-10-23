@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.10.24
-Release  : 42
+Release  : 43
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.24.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.24.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.24.tar.gz.asc
