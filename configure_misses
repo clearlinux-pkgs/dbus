@@ -1,3 +1,5 @@
+Configure miss: whether to enable debugging
+Configure miss: whether to build with code coverage support
 Configure miss: whether va_lists can be copied by value
 Configure miss: broken poll
 Configure miss: ws2tcpip.h usability
@@ -10,7 +12,9 @@ Configure miss: struct cmsgcred
 Configure miss: struct unpcbid.unp_pid
 Configure miss: getpeerucred
 Configure miss: getpeereid
+Configure miss: SELINUX
 Configure miss: APPARMOR
+Configure miss: APPARMOR_2_10
 Configure miss: sys/event.h usability
 Configure miss: sys/event.h presence
 Configure miss: sys/event.h
@@ -20,16 +24,21 @@ Configure miss: launch.h
 Configure miss: launchctl
 Configure miss: audit_log_user_avc_message in -laudit
 Configure miss: ADT API
+Configure miss: whether C compiler accepts -Werror=unknown-warning-option
+Configure miss: whether C++ compiler accepts -Werror=unknown-warning-option
+Configure miss: whether the linker accepts -Wl,-fatal_warnings
 Configure miss: ducktype
 Configure miss: yelp-build
 Configure miss: whether to build Ducktype documentation
 Configure miss: whether to build XML documentation
+Configure miss: whether to enable debugging
 Configure miss: i686-generic-linux-gnu-objdump
 Configure miss: i686-generic-linux-gnu-dlltool
 Configure miss: i686-generic-linux-gnu-strip
 Configure miss: i686-generic-linux-gnu-mt
 Configure miss: i686-generic-linux-gnu-pkg-config
 Configure miss: i686-generic-linux-gnu-windres
+Configure miss: whether to build with code coverage support
 Configure miss: whether va_lists can be copied by value
 Configure miss: broken poll
 Configure miss: ws2tcpip.h usability
@@ -42,7 +51,9 @@ Configure miss: struct cmsgcred
 Configure miss: struct unpcbid.unp_pid
 Configure miss: getpeerucred
 Configure miss: getpeereid
+Configure miss: SELINUX
 Configure miss: APPARMOR
+Configure miss: APPARMOR_2_10
 Configure miss: sys/event.h usability
 Configure miss: sys/event.h presence
 Configure miss: sys/event.h
@@ -52,6 +63,9 @@ Configure miss: launch.h
 Configure miss: launchctl
 Configure miss: audit_log_user_avc_message in -laudit
 Configure miss: ADT API
+Configure miss: whether C compiler accepts -Werror=unknown-warning-option
+Configure miss: whether C++ compiler accepts -Werror=unknown-warning-option
+Configure miss: whether the linker accepts -Wl,-fatal_warnings
 Configure miss: ducktype
 Configure miss: yelp-build
 Configure miss: whether to build Ducktype documentation

@@ -7,3 +7,5 @@ libapparmor
 32libapparmor
 32valgrind
 32dbus-glib-1
+32libselinux
+libselinux

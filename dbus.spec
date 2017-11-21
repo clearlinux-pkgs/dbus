@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE05AE1478F814C4F (smcv@debian.org)
 #
 Name     : dbus
-Version  : 1.10.24
-Release  : 43
-URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.24.tar.gz
-Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.24.tar.gz
-Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.10.24.tar.gz.asc
+Version  : 1.12.2
+Release  : 44
+URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.2.tar.gz
+Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.2.tar.gz
+Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.2.tar.gz.asc
 Summary  : Free desktop message bus (uninstalled copy)
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+
@@ -31,12 +31,14 @@ BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : libxslt-bin
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkgconfig(32expat)
 BuildRequires : pkgconfig(32glib-2.0)
 BuildRequires : pkgconfig(32ice)
 BuildRequires : pkgconfig(32libsystemd)
 BuildRequires : pkgconfig(32sm)
 BuildRequires : pkgconfig(32systemd)
 BuildRequires : pkgconfig(32x11)
+BuildRequires : pkgconfig(expat)
 BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(ice)
 BuildRequires : pkgconfig(libsystemd)
@@ -135,7 +137,6 @@ extras components for the dbus package.
 Summary: lib components for the dbus package.
 Group: Libraries
 Requires: dbus-data
-Requires: dbus-config
 
 %description lib
 lib components for the dbus package.
@@ -145,19 +146,18 @@ lib components for the dbus package.
 Summary: lib32 components for the dbus package.
 Group: Default
 Requires: dbus-data
-Requires: dbus-config
 
 %description lib32
 lib32 components for the dbus package.
 
 
 %prep
-%setup -q -n dbus-1.10.24
+%setup -q -n dbus-1.12.2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 pushd ..
-cp -a dbus-1.10.24 build32
+cp -a dbus-1.12.2 build32
 popd
 
 %build
@@ -165,7 +165,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1506527765
+export SOURCE_DATE_EPOCH=1511288029
 export CFLAGS="$CFLAGS -fstack-protector-strong "
 export FCFLAGS="$CFLAGS -fstack-protector-strong "
 export FFLAGS="$CFLAGS -fstack-protector-strong "
@@ -178,7 +178,7 @@ export CXXFLAGS="$CXXFLAGS -fstack-protector-strong "
 --with-system-socket=/run/dbus/system_bus_socket \
 --with-system-pid-file=/run/dbus/pid \
 --with-console-auth-dir=/run/console/
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
@@ -194,7 +194,7 @@ export LDFLAGS="$LDFLAGS -m32"
 --with-system-pid-file=/run/dbus/pid \
 --with-console-auth-dir=/run/console/ --without-dbus-glib \
 --disable-tests  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 popd
 %check
 export LANG=C
@@ -204,7 +204,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1506527765
+export SOURCE_DATE_EPOCH=1511288029
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -219,10 +219,13 @@ popd
 
 %files
 %defattr(-,root,root,-)
+/usr/lib32/cmake/DBus1/DBus1Config.cmake
+/usr/lib32/cmake/DBus1/DBus1ConfigVersion.cmake
+/usr/lib64/cmake/DBus1/DBus1Config.cmake
+/usr/lib64/cmake/DBus1/DBus1ConfigVersion.cmake
 
 %files autostart
 %defattr(-,root,root,-)
-/usr/lib/systemd/system/dbus.target.wants/dbus.socket
 /usr/lib/systemd/system/multi-user.target.wants/dbus.service
 /usr/lib/systemd/system/sockets.target.wants/dbus.socket
 
@@ -241,7 +244,6 @@ popd
 
 %files config
 %defattr(-,root,root,-)
-%exclude /usr/lib/systemd/system/dbus.target.wants/dbus.socket
 %exclude /usr/lib/systemd/system/multi-user.target.wants/dbus.service
 %exclude /usr/lib/systemd/system/sockets.target.wants/dbus.socket
 /usr/lib/systemd/system/dbus.service
@@ -249,11 +251,15 @@ popd
 /usr/lib/systemd/user/dbus.service
 /usr/lib/systemd/user/dbus.socket
 /usr/lib/systemd/user/sockets.target.wants/dbus.socket
+/usr/lib/sysusers.d/dbus.conf
+/usr/lib/tmpfiles.d/dbus.conf
 
 %files data
 %defattr(-,root,root,-)
 /usr/share/dbus-1/session.conf
 /usr/share/dbus-1/system.conf
+/usr/share/xml/dbus-1/busconfig.dtd
+/usr/share/xml/dbus-1/introspect.dtd
 
 %files dev
 %defattr(-,root,root,-)
@@ -296,9 +302,9 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libdbus-1.so.3
-/usr/lib64/libdbus-1.so.3.14.14
+/usr/lib64/libdbus-1.so.3.19.4
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so.3
-/usr/lib32/libdbus-1.so.3.14.14
+/usr/lib32/libdbus-1.so.3.19.4
