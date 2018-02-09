@@ -1,3 +1,34 @@
+dbus 1.12.4 (2018-02-08)
+========================
+
+The “Stria Campania 115” release.
+
+Fixes:
+
+• When iterating the DBusConnection while blocking on a pending call,
+  don't wait for I/O if that pending call already has a result; and make
+  sure that whether it has a result is propagated in a thread-safe way.
+  This prevents certain multi-threaded calling patterns from blocking
+  until their timeout even when they should have succeeded sooner.
+  (fd.o #102839; Manish Narang, Michael Searle)
+
+• Report the correct error if OOM is reached while trying to listen
+  on a TCP socket (fd.o #89104, Simon McVittie)
+
+• Fix assertion failures in recovery from OOM while setting up a
+  DBusServer (fd.o #89104, Simon McVittie)
+
+• Add a missing space to a warning message (fd.o #103729, Thomas Zajic)
+
+• Expand ${bindir} correctly when pkg-config is asked for dbus_daemondir
+  (fd.o #104265, Benedikt Heine)
+
+• On Linux systems with systemd < 237, if ${localstatedir}/dbus doesn't
+  exist, create it before trying to create ${localstatedir}/dbus/machine-id
+  (fd.o #104577, Chris Lesiak)
+
+• Fix escaping in dbus-api-design document (fd.o #104925, Philip Withnall)
+
 dbus 1.12.2 (2017-11-13)
 ========================
 
