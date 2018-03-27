@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE05AE1478F814C4F (smcv@debian.org)
 #
 Name     : dbus
-Version  : 1.12.4
-Release  : 46
-URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.4.tar.gz
-Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.4.tar.gz
-Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.4.tar.gz.asc
+Version  : 1.12.6
+Release  : 47
+URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.6.tar.gz
+Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.6.tar.gz
+Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.6.tar.gz.asc
 Summary  : Free desktop message bus (uninstalled copy)
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+
@@ -152,12 +152,12 @@ lib32 components for the dbus package.
 
 
 %prep
-%setup -q -n dbus-1.12.4
+%setup -q -n dbus-1.12.6
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 pushd ..
-cp -a dbus-1.12.4 build32
+cp -a dbus-1.12.6 build32
 popd
 
 %build
@@ -165,11 +165,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1518138558
-export CFLAGS="$CFLAGS -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -fstack-protector-strong "
-export FFLAGS="$CFLAGS -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong "
+export SOURCE_DATE_EPOCH=1522119202
+export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
+export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
+export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -204,7 +204,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1518138558
+export SOURCE_DATE_EPOCH=1522119202
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -219,10 +219,6 @@ popd
 
 %files
 %defattr(-,root,root,-)
-/usr/lib32/cmake/DBus1/DBus1Config.cmake
-/usr/lib32/cmake/DBus1/DBus1ConfigVersion.cmake
-/usr/lib64/cmake/DBus1/DBus1Config.cmake
-/usr/lib64/cmake/DBus1/DBus1ConfigVersion.cmake
 
 %files autostart
 %defattr(-,root,root,-)
@@ -281,12 +277,16 @@ popd
 /usr/include/dbus-1.0/dbus/dbus-types.h
 /usr/include/dbus-1.0/dbus/dbus.h
 /usr/lib32/dbus-1.0/include/dbus/dbus-arch-deps.h
+/usr/lib64/cmake/DBus1/DBus1Config.cmake
+/usr/lib64/cmake/DBus1/DBus1ConfigVersion.cmake
 /usr/lib64/dbus-1.0/include/dbus/dbus-arch-deps.h
 /usr/lib64/libdbus-1.so
 /usr/lib64/pkgconfig/dbus-1.pc
 
 %files dev32
 %defattr(-,root,root,-)
+/usr/lib32/cmake/DBus1/DBus1Config.cmake
+/usr/lib32/cmake/DBus1/DBus1ConfigVersion.cmake
 /usr/lib32/libdbus-1.so
 /usr/lib32/pkgconfig/32dbus-1.pc
 /usr/lib32/pkgconfig/dbus-1.pc
@@ -302,9 +302,9 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libdbus-1.so.3
-/usr/lib64/libdbus-1.so.3.19.5
+/usr/lib64/libdbus-1.so.3.19.6
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so.3
-/usr/lib32/libdbus-1.so.3.19.5
+/usr/lib32/libdbus-1.so.3.19.6
