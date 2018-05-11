@@ -1,2 +1,8 @@
 # This file contains recursive sources that require this package
+compat-gtksourceview-soname3
+flatpak
+fwupd
 gcr
+gtksourceview
+libdazzle
+vala

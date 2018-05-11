@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.6
-Release  : 48
+Release  : 49
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.6.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.6.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.6.tar.gz.asc
@@ -165,11 +165,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1522119202
-export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
-export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
-export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
+export SOURCE_DATE_EPOCH=1526052400
+export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -204,7 +204,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1522119202
+export SOURCE_DATE_EPOCH=1526052400
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
