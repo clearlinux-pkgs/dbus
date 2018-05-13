@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE05AE1478F814C4F (smcv@debian.org)
 #
 Name     : dbus
-Version  : 1.12.6
-Release  : 49
-URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.6.tar.gz
-Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.6.tar.gz
-Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.6.tar.gz.asc
+Version  : 1.12.8
+Release  : 50
+URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz
+Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz
+Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz.asc
 Summary  : Free desktop message bus (uninstalled copy)
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+
@@ -18,7 +18,6 @@ Requires: dbus-config
 Requires: dbus-autostart
 Requires: dbus-lib
 Requires: dbus-data
-Requires: dbus-doc
 BuildRequires : cmake
 BuildRequires : doxygen
 BuildRequires : expat-dev
@@ -152,12 +151,12 @@ lib32 components for the dbus package.
 
 
 %prep
-%setup -q -n dbus-1.12.6
+%setup -q -n dbus-1.12.8
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 pushd ..
-cp -a dbus-1.12.6 build32
+cp -a dbus-1.12.8 build32
 popd
 
 %build
@@ -165,7 +164,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1526052400
+export SOURCE_DATE_EPOCH=1526226854
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -204,7 +203,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1526052400
+export SOURCE_DATE_EPOCH=1526226854
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -302,9 +301,9 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libdbus-1.so.3
-/usr/lib64/libdbus-1.so.3.19.6
+/usr/lib64/libdbus-1.so.3.19.7
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so.3
-/usr/lib32/libdbus-1.so.3.19.6
+/usr/lib32/libdbus-1.so.3.19.7
