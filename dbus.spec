@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.8
-Release  : 50
+Release  : 51
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz.asc
