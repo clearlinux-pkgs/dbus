@@ -28,6 +28,7 @@ BuildRequires : gcc-libstdc++32
 BuildRequires : gettext
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
+BuildRequires : systemd-dev32
 BuildRequires : libxslt-bin
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkgconfig(32expat)
