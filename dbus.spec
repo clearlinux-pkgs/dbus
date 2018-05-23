@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.8
-Release  : 55
+Release  : 56
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz.asc
@@ -163,7 +163,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1527034730
+export SOURCE_DATE_EPOCH=1527035885
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -202,7 +202,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1527034730
+export SOURCE_DATE_EPOCH=1527035885
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -217,6 +217,7 @@ popd
 
 %files
 %defattr(-,root,root,-)
+/usr/lib32/systemd/user/dbus.service
 
 %files autostart
 %defattr(-,root,root,-)
@@ -306,3 +307,5 @@ popd
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so.3
 /usr/lib32/libdbus-1.so.3.19.7
+/usr/lib32/systemd/user/dbus.socket
+/usr/lib32/systemd/user/sockets.target.wants/dbus.socket
