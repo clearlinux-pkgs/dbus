@@ -9,3 +9,4 @@ libapparmor
 32dbus-glib-1
 32libselinux
 libselinux
+32systemd
