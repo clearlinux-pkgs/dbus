@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.8
-Release  : 56
+Release  : 57
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz.asc
@@ -18,6 +18,7 @@ Requires: dbus-config
 Requires: dbus-autostart
 Requires: dbus-lib
 Requires: dbus-data
+Requires: dbus-doc
 BuildRequires : cmake
 BuildRequires : doxygen
 BuildRequires : expat-dev
@@ -163,7 +164,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1527035885
+export SOURCE_DATE_EPOCH=1529428261
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -202,7 +203,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1527035885
+export SOURCE_DATE_EPOCH=1529428261
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -241,12 +242,12 @@ popd
 %defattr(-,root,root,-)
 %exclude /usr/lib/systemd/system/multi-user.target.wants/dbus.service
 %exclude /usr/lib/systemd/system/sockets.target.wants/dbus.socket
+%exclude /usr/lib/sysusers.d/dbus.conf
 /usr/lib/systemd/system/dbus.service
 /usr/lib/systemd/system/dbus.socket
 /usr/lib/systemd/user/dbus.service
 /usr/lib/systemd/user/dbus.socket
 /usr/lib/systemd/user/sockets.target.wants/dbus.socket
-/usr/lib/sysusers.d/dbus.conf
 /usr/lib/tmpfiles.d/dbus.conf
 
 %files data
@@ -291,7 +292,7 @@ popd
 /usr/lib32/pkgconfig/dbus-1.pc
 
 %files doc
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 %doc /usr/share/doc/dbus/*
 
 %files extras
