@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE05AE1478F814C4F (smcv@debian.org)
 #
 Name     : dbus
-Version  : 1.12.8
-Release  : 57
-URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz
-Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz
-Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.8.tar.gz.asc
+Version  : 1.12.10
+Release  : 58
+URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.10.tar.gz
+Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.10.tar.gz
+Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.10.tar.gz.asc
 Summary  : Free desktop message bus (uninstalled copy)
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+
@@ -18,8 +18,8 @@ Requires: dbus-config
 Requires: dbus-autostart
 Requires: dbus-lib
 Requires: dbus-data
-Requires: dbus-doc
-BuildRequires : cmake
+Requires: dbus-license
+BuildRequires : buildreq-cmake
 BuildRequires : doxygen
 BuildRequires : expat-dev
 BuildRequires : expat-dev32
@@ -31,6 +31,7 @@ BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : libxslt-bin
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkg-config
 BuildRequires : pkgconfig(32expat)
 BuildRequires : pkgconfig(32glib-2.0)
 BuildRequires : pkgconfig(32ice)
@@ -71,6 +72,7 @@ Summary: bin components for the dbus package.
 Group: Binaries
 Requires: dbus-data
 Requires: dbus-config
+Requires: dbus-license
 
 %description bin
 bin components for the dbus package.
@@ -136,6 +138,7 @@ extras components for the dbus package.
 Summary: lib components for the dbus package.
 Group: Libraries
 Requires: dbus-data
+Requires: dbus-license
 
 %description lib
 lib components for the dbus package.
@@ -145,18 +148,27 @@ lib components for the dbus package.
 Summary: lib32 components for the dbus package.
 Group: Default
 Requires: dbus-data
+Requires: dbus-license
 
 %description lib32
 lib32 components for the dbus package.
 
 
+%package license
+Summary: license components for the dbus package.
+Group: Default
+
+%description license
+license components for the dbus package.
+
+
 %prep
-%setup -q -n dbus-1.12.8
+%setup -q -n dbus-1.12.10
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 pushd ..
-cp -a dbus-1.12.8 build32
+cp -a dbus-1.12.10 build32
 popd
 
 %build
@@ -164,7 +176,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1529428261
+export SOURCE_DATE_EPOCH=1533268604
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -203,8 +215,11 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1529428261
+export SOURCE_DATE_EPOCH=1533268604
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/dbus
+cp COPYING %{buildroot}/usr/share/doc/dbus/COPYING
+cp cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/doc/dbus/cmake_modules_COPYING-CMAKE-SCRIPTS
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -218,7 +233,6 @@ popd
 
 %files
 %defattr(-,root,root,-)
-/usr/lib32/systemd/user/dbus.service
 
 %files autostart
 %defattr(-,root,root,-)
@@ -302,11 +316,14 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libdbus-1.so.3
-/usr/lib64/libdbus-1.so.3.19.7
+/usr/lib64/libdbus-1.so.3.19.8
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so.3
-/usr/lib32/libdbus-1.so.3.19.7
-/usr/lib32/systemd/user/dbus.socket
-/usr/lib32/systemd/user/sockets.target.wants/dbus.socket
+/usr/lib32/libdbus-1.so.3.19.8
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/dbus/COPYING
+/usr/share/doc/dbus/cmake_modules_COPYING-CMAKE-SCRIPTS
