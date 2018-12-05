@@ -5,20 +5,22 @@
 # Source0 file verified with key 0xE05AE1478F814C4F (smcv@debian.org)
 #
 Name     : dbus
-Version  : 1.12.10
-Release  : 58
-URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.10.tar.gz
-Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.10.tar.gz
-Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.10.tar.gz.asc
+Version  : 1.12.12
+Release  : 59
+URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
+Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
+Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz.asc
 Summary  : Free desktop message bus (uninstalled copy)
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+
-Requires: dbus-bin
-Requires: dbus-config
-Requires: dbus-autostart
-Requires: dbus-lib
-Requires: dbus-data
-Requires: dbus-license
+Requires: dbus-autostart = %{version}-%{release}
+Requires: dbus-bin = %{version}-%{release}
+Requires: dbus-config = %{version}-%{release}
+Requires: dbus-data = %{version}-%{release}
+Requires: dbus-lib = %{version}-%{release}
+Requires: dbus-libexec = %{version}-%{release}
+Requires: dbus-license = %{version}-%{release}
+Requires: dbus-services = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : doxygen
 BuildRequires : expat-dev
@@ -70,9 +72,11 @@ autostart components for the dbus package.
 %package bin
 Summary: bin components for the dbus package.
 Group: Binaries
-Requires: dbus-data
-Requires: dbus-config
-Requires: dbus-license
+Requires: dbus-data = %{version}-%{release}
+Requires: dbus-libexec = %{version}-%{release}
+Requires: dbus-config = %{version}-%{release}
+Requires: dbus-license = %{version}-%{release}
+Requires: dbus-services = %{version}-%{release}
 
 %description bin
 bin components for the dbus package.
@@ -97,10 +101,10 @@ data components for the dbus package.
 %package dev
 Summary: dev components for the dbus package.
 Group: Development
-Requires: dbus-lib
-Requires: dbus-bin
-Requires: dbus-data
-Provides: dbus-devel
+Requires: dbus-lib = %{version}-%{release}
+Requires: dbus-bin = %{version}-%{release}
+Requires: dbus-data = %{version}-%{release}
+Provides: dbus-devel = %{version}-%{release}
 
 %description dev
 dev components for the dbus package.
@@ -109,10 +113,10 @@ dev components for the dbus package.
 %package dev32
 Summary: dev32 components for the dbus package.
 Group: Default
-Requires: dbus-lib32
-Requires: dbus-bin
-Requires: dbus-data
-Requires: dbus-dev
+Requires: dbus-lib32 = %{version}-%{release}
+Requires: dbus-bin = %{version}-%{release}
+Requires: dbus-data = %{version}-%{release}
+Requires: dbus-dev = %{version}-%{release}
 
 %description dev32
 dev32 components for the dbus package.
@@ -137,8 +141,9 @@ extras components for the dbus package.
 %package lib
 Summary: lib components for the dbus package.
 Group: Libraries
-Requires: dbus-data
-Requires: dbus-license
+Requires: dbus-data = %{version}-%{release}
+Requires: dbus-libexec = %{version}-%{release}
+Requires: dbus-license = %{version}-%{release}
 
 %description lib
 lib components for the dbus package.
@@ -147,11 +152,21 @@ lib components for the dbus package.
 %package lib32
 Summary: lib32 components for the dbus package.
 Group: Default
-Requires: dbus-data
-Requires: dbus-license
+Requires: dbus-data = %{version}-%{release}
+Requires: dbus-license = %{version}-%{release}
 
 %description lib32
 lib32 components for the dbus package.
+
+
+%package libexec
+Summary: libexec components for the dbus package.
+Group: Default
+Requires: dbus-config = %{version}-%{release}
+Requires: dbus-license = %{version}-%{release}
+
+%description libexec
+libexec components for the dbus package.
 
 
 %package license
@@ -162,13 +177,21 @@ Group: Default
 license components for the dbus package.
 
 
+%package services
+Summary: services components for the dbus package.
+Group: Systemd services
+
+%description services
+services components for the dbus package.
+
+
 %prep
-%setup -q -n dbus-1.12.10
+%setup -q -n dbus-1.12.12
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 pushd ..
-cp -a dbus-1.12.10 build32
+cp -a dbus-1.12.12 build32
 popd
 
 %build
@@ -176,7 +199,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1533268604
+export SOURCE_DATE_EPOCH=1543997944
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -193,6 +216,7 @@ make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export ASFLAGS="$ASFLAGS --32"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
@@ -213,13 +237,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
+cd ../build32;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1533268604
+export SOURCE_DATE_EPOCH=1543997944
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/dbus
-cp COPYING %{buildroot}/usr/share/doc/dbus/COPYING
-cp cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/doc/dbus/cmake_modules_COPYING-CMAKE-SCRIPTS
+mkdir -p %{buildroot}/usr/share/package-licenses/dbus
+cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
+cp cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/cmake_modules_COPYING-CMAKE-SCRIPTS
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -242,7 +268,6 @@ popd
 %files bin
 %defattr(-,root,root,-)
 %exclude /usr/bin/dbus-launch
-%exclude /usr/libexec/dbus-daemon-launch-helper
 /usr/bin/dbus-cleanup-sockets
 /usr/bin/dbus-daemon
 /usr/bin/dbus-monitor
@@ -254,14 +279,7 @@ popd
 
 %files config
 %defattr(-,root,root,-)
-%exclude /usr/lib/systemd/system/multi-user.target.wants/dbus.service
-%exclude /usr/lib/systemd/system/sockets.target.wants/dbus.socket
 %exclude /usr/lib/sysusers.d/dbus.conf
-/usr/lib/systemd/system/dbus.service
-/usr/lib/systemd/system/dbus.socket
-/usr/lib/systemd/user/dbus.service
-/usr/lib/systemd/user/dbus.socket
-/usr/lib/systemd/user/sockets.target.wants/dbus.socket
 /usr/lib/tmpfiles.d/dbus.conf
 
 %files data
@@ -316,14 +334,28 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libdbus-1.so.3
-/usr/lib64/libdbus-1.so.3.19.8
+/usr/lib64/libdbus-1.so.3.19.9
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so.3
-/usr/lib32/libdbus-1.so.3.19.8
+/usr/lib32/libdbus-1.so.3.19.9
+
+%files libexec
+%defattr(-,root,root,-)
+%exclude /usr/libexec/dbus-daemon-launch-helper
 
 %files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/dbus/COPYING
+/usr/share/package-licenses/dbus/cmake_modules_COPYING-CMAKE-SCRIPTS
+
+%files services
 %defattr(-,root,root,-)
-/usr/share/doc/dbus/COPYING
-/usr/share/doc/dbus/cmake_modules_COPYING-CMAKE-SCRIPTS
+%exclude /usr/lib/systemd/system/multi-user.target.wants/dbus.service
+%exclude /usr/lib/systemd/system/sockets.target.wants/dbus.socket
+/usr/lib/systemd/system/dbus.service
+/usr/lib/systemd/system/dbus.socket
+/usr/lib/systemd/user/dbus.service
+/usr/lib/systemd/user/dbus.socket
+/usr/lib/systemd/user/sockets.target.wants/dbus.socket
