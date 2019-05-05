@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.12
-Release  : 60
+Release  : 61
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz.asc
@@ -21,7 +21,6 @@ Requires: dbus-lib = %{version}-%{release}
 Requires: dbus-libexec = %{version}-%{release}
 Requires: dbus-license = %{version}-%{release}
 Requires: dbus-services = %{version}-%{release}
-BuildRequires : audit-dev
 BuildRequires : buildreq-cmake
 BuildRequires : doxygen
 BuildRequires : expat-dev
@@ -32,7 +31,6 @@ BuildRequires : gcc-libstdc++32
 BuildRequires : gettext
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
-BuildRequires : libcap-ng-dev
 BuildRequires : libxslt-bin
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkg-config
@@ -203,7 +201,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1557083331
+export SOURCE_DATE_EPOCH=1557100183
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -248,7 +246,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1557083331
+export SOURCE_DATE_EPOCH=1557100183
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING

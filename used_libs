@@ -1,7 +1,5 @@
 libX11.so.6
-libaudit.so.1
 libc.so.6
-libcap-ng.so.0
 libexpat.so.1
 libpthread.so.0
 libsystemd.so.0
