@@ -1,5 +1,7 @@
 1.12.12
+audit-dev
 doxygen
+libcap-ng-dev
 libxslt-bin
 pkg-config
 xmlto

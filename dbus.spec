@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.12
-Release  : 59
+Release  : 60
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz.asc
@@ -21,6 +21,7 @@ Requires: dbus-lib = %{version}-%{release}
 Requires: dbus-libexec = %{version}-%{release}
 Requires: dbus-license = %{version}-%{release}
 Requires: dbus-services = %{version}-%{release}
+BuildRequires : audit-dev
 BuildRequires : buildreq-cmake
 BuildRequires : doxygen
 BuildRequires : expat-dev
@@ -31,6 +32,7 @@ BuildRequires : gcc-libstdc++32
 BuildRequires : gettext
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
+BuildRequires : libcap-ng-dev
 BuildRequires : libxslt-bin
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkg-config
@@ -54,12 +56,13 @@ Patch2: malloc_trim.patch
 Patch3: memory.patch
 
 %description
-Sections in this file describe:
-- introduction and overview
-- low-level vs. high-level API
-- version numbers
-- options to the configure script
-- ABI stability policy
+This file describes how to compile dbus using the cmake build system
+Requirements
+------------
+- cmake version >= 2.6.0 see http://www.cmake.org
+- installed libexpat see http://sourceforge.net/projects/expat/
+unsupported RelWithDebInfo builds could be fetched
+from http://sourceforge.net/projects/kde-windows/files/expat/
 
 %package autostart
 Summary: autostart components for the dbus package.
@@ -105,6 +108,7 @@ Requires: dbus-lib = %{version}-%{release}
 Requires: dbus-bin = %{version}-%{release}
 Requires: dbus-data = %{version}-%{release}
 Provides: dbus-devel = %{version}-%{release}
+Requires: dbus = %{version}-%{release}
 
 %description dev
 dev components for the dbus package.
@@ -199,11 +203,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1543997944
-export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export SOURCE_DATE_EPOCH=1557083331
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export FFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -216,10 +223,10 @@ make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-export ASFLAGS="$ASFLAGS --32"
-export CFLAGS="$CFLAGS -m32"
-export CXXFLAGS="$CXXFLAGS -m32"
-export LDFLAGS="$LDFLAGS -m32"
+export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -241,7 +248,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1543997944
+export SOURCE_DATE_EPOCH=1557083331
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
