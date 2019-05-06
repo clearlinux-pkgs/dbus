@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.12
-Release  : 64
+Release  : 65
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz.asc
@@ -201,7 +201,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1557102700
+export SOURCE_DATE_EPOCH=1557102942
 export CFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
 export FCFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
 export FFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
@@ -245,7 +245,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1557102700
+export SOURCE_DATE_EPOCH=1557102942
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
@@ -261,13 +261,11 @@ fi
 popd
 %make_install
 ## install_append content
-rm -rf %{buildroot}/etc/dbus-1
+rm -rf %{buildroot}/etc2
 ## install_append end
 
 %files
 %defattr(-,root,root,-)
-/etc2/dbus-1/session.conf
-/etc2/dbus-1/system.conf
 
 %files autostart
 %defattr(-,root,root,-)
