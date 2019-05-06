@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.12
-Release  : 63
+Release  : 64
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz.asc
@@ -201,7 +201,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1557102090
+export SOURCE_DATE_EPOCH=1557102700
 export CFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
 export FCFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
 export FFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
@@ -213,7 +213,8 @@ export CXXFLAGS="$CXXFLAGS -fcf-protection=full -fno-lto -fstack-protector-stron
 --enable-epoll \
 --with-system-socket=/run/dbus/system_bus_socket \
 --with-system-pid-file=/run/dbus/pid \
---with-console-auth-dir=/run/console/
+--with-console-auth-dir=/run/console/ \
+--sysconfdir=/etc2
 make  %{?_smp_mflags}
 
 pushd ../build32/
@@ -229,7 +230,8 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
 --enable-epoll \
 --with-system-socket=/run/dbus/system_bus_socket \
 --with-system-pid-file=/run/dbus/pid \
---with-console-auth-dir=/run/console/ --without-dbus-glib \
+--with-console-auth-dir=/run/console/ \
+--sysconfdir=/etc2 --without-dbus-glib \
 --disable-tests  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
@@ -243,7 +245,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1557102090
+export SOURCE_DATE_EPOCH=1557102700
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
@@ -264,6 +266,8 @@ rm -rf %{buildroot}/etc/dbus-1
 
 %files
 %defattr(-,root,root,-)
+/etc2/dbus-1/session.conf
+/etc2/dbus-1/system.conf
 
 %files autostart
 %defattr(-,root,root,-)

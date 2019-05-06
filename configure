@@ -6,3 +6,4 @@
 --with-system-socket=/run/dbus/system_bus_socket
 --with-system-pid-file=/run/dbus/pid
 --with-console-auth-dir=/run/console/
+--sysconfdir=/etc2

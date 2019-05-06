@@ -1,1 +1,1 @@
-rm -rf %{buildroot}/etc/dbus-1
+rm -rf %{buildroot}/etc2
