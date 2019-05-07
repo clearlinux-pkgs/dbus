@@ -1,1 +1,3 @@
 /usr/bin/dbus-launch
+/usr/libexec/dbus-daemon-launch-helper
+
