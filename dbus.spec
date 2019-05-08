@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.12
-Release  : 66
+Release  : 67
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz.asc
@@ -54,13 +54,12 @@ Patch2: malloc_trim.patch
 Patch3: memory.patch
 
 %description
-This file describes how to compile dbus using the cmake build system
-Requirements
-------------
-- cmake version >= 2.6.0 see http://www.cmake.org
-- installed libexpat see http://sourceforge.net/projects/expat/
-unsupported RelWithDebInfo builds could be fetched
-from http://sourceforge.net/projects/kde-windows/files/expat/
+Sections in this file describe:
+- introduction and overview
+- low-level vs. high-level API
+- version numbers
+- options to the configure script
+- ABI stability policy
 
 %package autostart
 Summary: autostart components for the dbus package.
@@ -201,11 +200,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1557190965
-export CFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
-export FFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
+export SOURCE_DATE_EPOCH=1557336291
+export LDFLAGS="${LDFLAGS} -fno-lto"
+export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -245,7 +245,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1557190965
+export SOURCE_DATE_EPOCH=1557336291
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
@@ -262,6 +262,7 @@ popd
 %make_install
 ## install_append content
 rm -rf %{buildroot}/etc2
+chmod 4755 %{buildroot}/usr/libexec/dbus-daemon-launch-helper
 ## install_append end
 
 %files
