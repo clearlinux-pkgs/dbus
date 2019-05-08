@@ -26,7 +26,50 @@ Configure miss: yelp-build
 Configure miss: whether to build Ducktype documentation
 Configure miss: whether to build XML documentation
 Configure miss: whether to enable debugging
+Configure miss: i686-generic-linux-gnu-gcc
+Configure miss: i686-generic-linux-gnu-g++
+Configure miss: i686-generic-linux-gnu-c++
+Configure miss: i686-generic-linux-gnu-gpp
+Configure miss: i686-generic-linux-gnu-aCC
+Configure miss: i686-generic-linux-gnu-CC
+Configure miss: i686-generic-linux-gnu-cxx
+Configure miss: i686-generic-linux-gnu-cc++
+Configure miss: i686-generic-linux-gnu-cl.exe
+Configure miss: i686-generic-linux-gnu-FCC
+Configure miss: i686-generic-linux-gnu-KCC
+Configure miss: i686-generic-linux-gnu-RCC
+Configure miss: i686-generic-linux-gnu-xlC_r
+Configure miss: i686-generic-linux-gnu-xlC
+Configure miss: i686-generic-linux-gnu-ar
+Configure miss: i686-generic-linux-gnu-ranlib
 Configure miss: i686-generic-linux-gnu-windres
+Configure miss: whether va_lists can be copied by value
+Configure miss: ws2tcpip.h usability
+Configure miss: ws2tcpip.h presence
+Configure miss: ws2tcpip.h
+Configure miss: sys/syslimits.h usability
+Configure miss: sys/syslimits.h presence
+Configure miss: sys/syslimits.h
+Configure miss: struct cmsgcred
+Configure miss: struct unpcbid.unp_pid
+Configure miss: SELINUX
+Configure miss: APPARMOR
+Configure miss: APPARMOR_2_10
+Configure miss: sys/event.h usability
+Configure miss: sys/event.h presence
+Configure miss: sys/event.h
+Configure miss: launch.h usability
+Configure miss: launch.h presence
+Configure miss: launch.h
+Configure miss: launchctl
+Configure miss: audit_log_user_avc_message in -laudit
+Configure miss: ADT API
+Configure miss: whether C++ compiler accepts -Werror=unknown-warning-option
+Configure miss: ducktype
+Configure miss: yelp-build
+Configure miss: whether to build Ducktype documentation
+Configure miss: whether to build XML documentation
+Configure miss: whether to enable debugging
 Configure miss: whether va_lists can be copied by value
 Configure miss: ws2tcpip.h usability
 Configure miss: ws2tcpip.h presence

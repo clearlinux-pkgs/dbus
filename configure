@@ -7,3 +7,4 @@
 --with-system-pid-file=/run/dbus/pid
 --with-console-auth-dir=/run/console/
 --sysconfdir=/etc2
+--without-x

@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.12
-Release  : 67
+Release  : 68
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz.asc
@@ -52,6 +52,7 @@ BuildRequires : xmlto
 Patch1: 0001-Add-support-for-ignore_missing-attribute-in-included.patch
 Patch2: malloc_trim.patch
 Patch3: memory.patch
+Patch4: 0002-Make-the-non-X11-dbus-launch-exec-the-X11-enabled-on.patch
 
 %description
 Sections in this file describe:
@@ -191,6 +192,7 @@ services components for the dbus package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 pushd ..
 cp -a dbus-1.12.12 build32
 popd
@@ -200,7 +202,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1557336291
+export SOURCE_DATE_EPOCH=1557342984
 export LDFLAGS="${LDFLAGS} -fno-lto"
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -214,7 +216,8 @@ export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=use
 --with-system-socket=/run/dbus/system_bus_socket \
 --with-system-pid-file=/run/dbus/pid \
 --with-console-auth-dir=/run/console/ \
---sysconfdir=/etc2
+--sysconfdir=/etc2 \
+--without-x
 make  %{?_smp_mflags}
 
 pushd ../build32/
@@ -231,7 +234,8 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
 --with-system-socket=/run/dbus/system_bus_socket \
 --with-system-pid-file=/run/dbus/pid \
 --with-console-auth-dir=/run/console/ \
---sysconfdir=/etc2 --without-dbus-glib \
+--sysconfdir=/etc2 \
+--without-x --without-dbus-glib \
 --disable-tests  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
@@ -245,7 +249,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1557336291
+export SOURCE_DATE_EPOCH=1557342984
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
@@ -263,6 +267,11 @@ popd
 ## install_append content
 rm -rf %{buildroot}/etc2
 chmod 4755 %{buildroot}/usr/libexec/dbus-daemon-launch-helper
+eval `grep bin/sh.*without-x config.status `
+shift 3
+./configure "$@" --with-x
+make -C tools dbus-launch
+install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 ## install_append end
 
 %files
@@ -275,9 +284,10 @@ chmod 4755 %{buildroot}/usr/libexec/dbus-daemon-launch-helper
 
 %files bin
 %defattr(-,root,root,-)
-%exclude /usr/bin/dbus-launch
+%exclude /usr/bin/dbus-launch.x11
 /usr/bin/dbus-cleanup-sockets
 /usr/bin/dbus-daemon
+/usr/bin/dbus-launch
 /usr/bin/dbus-monitor
 /usr/bin/dbus-run-session
 /usr/bin/dbus-send
@@ -337,8 +347,7 @@ chmod 4755 %{buildroot}/usr/libexec/dbus-daemon-launch-helper
 
 %files extras
 %defattr(-,root,root,-)
-/usr/bin/dbus-launch
-/usr/libexec/dbus-daemon-launch-helper
+/usr/bin/dbus-launch.x11
 
 %files lib
 %defattr(-,root,root,-)
@@ -352,7 +361,7 @@ chmod 4755 %{buildroot}/usr/libexec/dbus-daemon-launch-helper
 
 %files libexec
 %defattr(-,root,root,-)
-%exclude /usr/libexec/dbus-daemon-launch-helper
+/usr/libexec/dbus-daemon-launch-helper
 
 %files license
 %defattr(0644,root,root,0755)
