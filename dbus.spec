@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.12
-Release  : 68
+Release  : 69
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz.asc
@@ -202,7 +202,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1557342984
+export SOURCE_DATE_EPOCH=1557419482
+export GCC_IGNORE_WERROR=1
 export LDFLAGS="${LDFLAGS} -fno-lto"
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -249,7 +250,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1557342984
+export SOURCE_DATE_EPOCH=1557419482
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
@@ -266,7 +267,6 @@ popd
 %make_install
 ## install_append content
 rm -rf %{buildroot}/etc2
-chmod 4755 %{buildroot}/usr/libexec/dbus-daemon-launch-helper
 eval `grep bin/sh.*without-x config.status `
 shift 3
 ./configure "$@" --with-x
@@ -361,7 +361,7 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 
 %files libexec
 %defattr(-,root,root,-)
-/usr/libexec/dbus-daemon-launch-helper
+%attr(4750,root,messagebus) /usr/libexec/dbus-daemon-launch-helper
 
 %files license
 %defattr(0644,root,root,0755)

@@ -1,5 +1,4 @@
 rm -rf %{buildroot}/etc2
-chmod 4755 %{buildroot}/usr/libexec/dbus-daemon-launch-helper
 
 # Rebuild with X11 support now
 eval `grep bin/sh.*without-x config.status `
