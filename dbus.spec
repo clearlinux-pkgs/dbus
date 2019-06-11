@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE05AE1478F814C4F (smcv@debian.org)
 #
 Name     : dbus
-Version  : 1.12.12
-Release  : 69
-URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
-Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz
-Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.12.tar.gz.asc
+Version  : 1.12.16
+Release  : 70
+URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz
+Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz
+Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz.asc
 Summary  : Free desktop message bus (uninstalled copy)
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+
@@ -55,12 +55,13 @@ Patch3: memory.patch
 Patch4: 0002-Make-the-non-X11-dbus-launch-exec-the-X11-enabled-on.patch
 
 %description
-Sections in this file describe:
-- introduction and overview
-- low-level vs. high-level API
-- version numbers
-- options to the configure script
-- ABI stability policy
+This file describes how to compile dbus using the cmake build system
+Requirements
+------------
+- cmake version >= 2.6.0 see http://www.cmake.org
+- installed libexpat see http://sourceforge.net/projects/expat/
+unsupported RelWithDebInfo builds could be fetched
+from http://sourceforge.net/projects/kde-windows/files/expat/
 
 %package autostart
 Summary: autostart components for the dbus package.
@@ -106,6 +107,7 @@ Requires: dbus-lib = %{version}-%{release}
 Requires: dbus-bin = %{version}-%{release}
 Requires: dbus-data = %{version}-%{release}
 Provides: dbus-devel = %{version}-%{release}
+Requires: dbus = %{version}-%{release}
 Requires: dbus = %{version}-%{release}
 
 %description dev
@@ -188,13 +190,13 @@ services components for the dbus package.
 
 
 %prep
-%setup -q -n dbus-1.12.12
+%setup -q -n dbus-1.12.16
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 pushd ..
-cp -a dbus-1.12.12 build32
+cp -a dbus-1.12.16 build32
 popd
 
 %build
@@ -202,13 +204,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1557419482
-export GCC_IGNORE_WERROR=1
-export LDFLAGS="${LDFLAGS} -fno-lto"
-export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export SOURCE_DATE_EPOCH=1560277109
+export CFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
+export FFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -250,7 +250,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1557419482
+export SOURCE_DATE_EPOCH=1560277109
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
@@ -352,16 +352,16 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libdbus-1.so.3
-/usr/lib64/libdbus-1.so.3.19.9
+/usr/lib64/libdbus-1.so.3.19.11
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so.3
-/usr/lib32/libdbus-1.so.3.19.9
+/usr/lib32/libdbus-1.so.3.19.11
 
 %files libexec
 %defattr(-,root,root,-)
-%attr(4750,root,messagebus) /usr/libexec/dbus-daemon-launch-helper
+/usr/libexec/dbus-daemon-launch-helper
 
 %files license
 %defattr(0644,root,root,0755)
