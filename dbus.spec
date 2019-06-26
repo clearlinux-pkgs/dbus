@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.16
-Release  : 70
+Release  : 71
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz
 Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz.asc
@@ -55,13 +55,12 @@ Patch3: memory.patch
 Patch4: 0002-Make-the-non-X11-dbus-launch-exec-the-X11-enabled-on.patch
 
 %description
-This file describes how to compile dbus using the cmake build system
-Requirements
-------------
-- cmake version >= 2.6.0 see http://www.cmake.org
-- installed libexpat see http://sourceforge.net/projects/expat/
-unsupported RelWithDebInfo builds could be fetched
-from http://sourceforge.net/projects/kde-windows/files/expat/
+Sections in this file describe:
+- introduction and overview
+- low-level vs. high-level API
+- version numbers
+- options to the configure script
+- ABI stability policy
 
 %package autostart
 Summary: autostart components for the dbus package.
@@ -107,7 +106,6 @@ Requires: dbus-lib = %{version}-%{release}
 Requires: dbus-bin = %{version}-%{release}
 Requires: dbus-data = %{version}-%{release}
 Provides: dbus-devel = %{version}-%{release}
-Requires: dbus = %{version}-%{release}
 Requires: dbus = %{version}-%{release}
 
 %description dev
@@ -204,11 +202,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1560277109
-export CFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
-export FFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
+export SOURCE_DATE_EPOCH=1561509332
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -250,7 +249,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1560277109
+export SOURCE_DATE_EPOCH=1561509332
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
@@ -361,7 +360,7 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 
 %files libexec
 %defattr(-,root,root,-)
-/usr/libexec/dbus-daemon-launch-helper
+%attr(4750,root,messagebus) /usr/libexec/dbus-daemon-launch-helper
 
 %files license
 %defattr(0644,root,root,0755)
