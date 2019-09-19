@@ -1,4 +1,5 @@
 Configure miss: whether to enable debugging
+Configure miss: windres
 Configure miss: whether va_lists can be copied by value
 Configure miss: ws2tcpip.h usability
 Configure miss: ws2tcpip.h presence
@@ -27,6 +28,7 @@ Configure miss: whether to build Ducktype documentation
 Configure miss: whether to build XML documentation
 Configure miss: whether to enable debugging
 Configure miss: i686-generic-linux-gnu-windres
+Configure miss: windres
 Configure miss: whether va_lists can be copied by value
 Configure miss: ws2tcpip.h usability
 Configure miss: ws2tcpip.h presence
@@ -54,6 +56,7 @@ Configure miss: yelp-build
 Configure miss: whether to build Ducktype documentation
 Configure miss: whether to build XML documentation
 Configure miss: whether to enable debugging
+Configure miss: windres
 Configure miss: whether va_lists can be copied by value
 Configure miss: ws2tcpip.h usability
 Configure miss: ws2tcpip.h presence

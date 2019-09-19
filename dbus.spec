@@ -6,10 +6,10 @@
 #
 Name     : dbus
 Version  : 1.12.16
-Release  : 71
+Release  : 72
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz
-Source99 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz.asc
+Source1 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz.asc
 Summary  : Free desktop message bus (uninstalled copy)
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+
@@ -201,8 +201,8 @@ popd
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1561509332
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1568853398
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -223,9 +223,9 @@ make  %{?_smp_mflags}
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
-export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
-export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
-export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -240,7 +240,7 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
 make  %{?_smp_mflags}
 popd
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -249,7 +249,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1561509332
+export SOURCE_DATE_EPOCH=1568853398
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
@@ -264,6 +264,8 @@ popd
 fi
 popd
 %make_install
+## Remove excluded files
+rm -f %{buildroot}/usr/lib/sysusers.d/dbus.conf
 ## install_append content
 rm -rf %{buildroot}/etc2
 eval `grep bin/sh.*without-x config.status `
@@ -283,7 +285,6 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 
 %files bin
 %defattr(-,root,root,-)
-%exclude /usr/bin/dbus-launch.x11
 /usr/bin/dbus-cleanup-sockets
 /usr/bin/dbus-daemon
 /usr/bin/dbus-launch
@@ -296,7 +297,6 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 
 %files config
 %defattr(-,root,root,-)
-%exclude /usr/lib/sysusers.d/dbus.conf
 /usr/lib/tmpfiles.d/dbus.conf
 
 %files data
