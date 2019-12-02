@@ -1,5 +1,8 @@
 rm -rf %{buildroot}/etc2
 
+sed -i 's/etc2/etc/g' %{buildroot}/usr/share/dbus-1/system.conf
+sed -i 's/etc2/etc/g' %{buildroot}/usr/share/dbus-1/session.conf
+
 # Rebuild with X11 support now
 eval `grep bin/sh.*without-x config.status `
 shift 3

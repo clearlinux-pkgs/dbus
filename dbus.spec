@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.16
-Release  : 72
+Release  : 73
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz
 Source1 : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz.asc
@@ -189,6 +189,7 @@ services components for the dbus package.
 
 %prep
 %setup -q -n dbus-1.12.16
+cd %{_builddir}/dbus-1.12.16
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -202,7 +203,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568853398
+export SOURCE_DATE_EPOCH=1575325335
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -249,11 +250,11 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1568853398
+export SOURCE_DATE_EPOCH=1575325335
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
-cp COPYING %{buildroot}/usr/share/package-licenses/dbus/COPYING
-cp cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/cmake_modules_COPYING-CMAKE-SCRIPTS
+cp %{_builddir}/dbus-1.12.16/COPYING %{buildroot}/usr/share/package-licenses/dbus/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
+cp %{_builddir}/dbus-1.12.16/cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/77976f406ba34009d9ba5a43b882fe6de68e5175
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -268,6 +269,8 @@ popd
 rm -f %{buildroot}/usr/lib/sysusers.d/dbus.conf
 ## install_append content
 rm -rf %{buildroot}/etc2
+sed -i 's/etc2/etc/g' %{buildroot}/usr/share/dbus-1/system.conf
+sed -i 's/etc2/etc/g' %{buildroot}/usr/share/dbus-1/session.conf
 eval `grep bin/sh.*without-x config.status `
 shift 3
 ./configure "$@" --with-x
@@ -364,8 +367,8 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/dbus/COPYING
-/usr/share/package-licenses/dbus/cmake_modules_COPYING-CMAKE-SCRIPTS
+/usr/share/package-licenses/dbus/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
+/usr/share/package-licenses/dbus/77976f406ba34009d9ba5a43b882fe6de68e5175
 
 %files services
 %defattr(-,root,root,-)
