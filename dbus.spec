@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE05AE1478F814C4F (smcv@debian.org)
 #
 Name     : dbus
-Version  : 1.12.16
-Release  : 75
-URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz
-Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz
-Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz.asc
+Version  : 1.12.20
+Release  : 76
+URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
+Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
+Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz.asc
 Summary  : Free desktop message bus (uninstalled copy)
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+
@@ -188,14 +188,14 @@ services components for the dbus package.
 
 
 %prep
-%setup -q -n dbus-1.12.16
-cd %{_builddir}/dbus-1.12.16
+%setup -q -n dbus-1.12.20
+cd %{_builddir}/dbus-1.12.20
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 pushd ..
-cp -a dbus-1.12.16 build32
+cp -a dbus-1.12.20 build32
 popd
 
 %build
@@ -203,11 +203,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1579648746
+export SOURCE_DATE_EPOCH=1594251942
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
@@ -250,11 +250,11 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1579648746
+export SOURCE_DATE_EPOCH=1594251942
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
-cp %{_builddir}/dbus-1.12.16/COPYING %{buildroot}/usr/share/package-licenses/dbus/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
-cp %{_builddir}/dbus-1.12.16/cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/77976f406ba34009d9ba5a43b882fe6de68e5175
+cp %{_builddir}/dbus-1.12.20/COPYING %{buildroot}/usr/share/package-licenses/dbus/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
+cp %{_builddir}/dbus-1.12.20/cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/77976f406ba34009d9ba5a43b882fe6de68e5175
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -359,12 +359,12 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libdbus-1.so.3
-/usr/lib64/libdbus-1.so.3.19.11
+/usr/lib64/libdbus-1.so.3.19.13
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so.3
-/usr/lib32/libdbus-1.so.3.19.11
+/usr/lib32/libdbus-1.so.3.19.13
 
 %files libexec
 %defattr(-,root,root,-)
