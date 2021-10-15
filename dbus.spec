@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.20
-Release  : 77
+Release  : 78
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
 Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz.asc
@@ -17,6 +17,7 @@ Requires: dbus-autostart = %{version}-%{release}
 Requires: dbus-bin = %{version}-%{release}
 Requires: dbus-config = %{version}-%{release}
 Requires: dbus-data = %{version}-%{release}
+Requires: dbus-filemap = %{version}-%{release}
 Requires: dbus-lib = %{version}-%{release}
 Requires: dbus-libexec = %{version}-%{release}
 Requires: dbus-license = %{version}-%{release}
@@ -78,6 +79,7 @@ Requires: dbus-libexec = %{version}-%{release}
 Requires: dbus-config = %{version}-%{release}
 Requires: dbus-license = %{version}-%{release}
 Requires: dbus-services = %{version}-%{release}
+Requires: dbus-filemap = %{version}-%{release}
 
 %description bin
 bin components for the dbus package.
@@ -140,12 +142,21 @@ Group: Default
 extras components for the dbus package.
 
 
+%package filemap
+Summary: filemap components for the dbus package.
+Group: Default
+
+%description filemap
+filemap components for the dbus package.
+
+
 %package lib
 Summary: lib components for the dbus package.
 Group: Libraries
 Requires: dbus-data = %{version}-%{release}
 Requires: dbus-libexec = %{version}-%{release}
 Requires: dbus-license = %{version}-%{release}
+Requires: dbus-filemap = %{version}-%{release}
 
 %description lib
 lib components for the dbus package.
@@ -166,6 +177,7 @@ Summary: libexec components for the dbus package.
 Group: Default
 Requires: dbus-config = %{version}-%{release}
 Requires: dbus-license = %{version}-%{release}
+Requires: dbus-filemap = %{version}-%{release}
 
 %description libexec
 libexec components for the dbus package.
@@ -197,13 +209,16 @@ cd %{_builddir}/dbus-1.12.20
 pushd ..
 cp -a dbus-1.12.20 build32
 popd
+pushd ..
+cp -a dbus-1.12.20 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1594251942
+export SOURCE_DATE_EPOCH=1634331586
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
 export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
@@ -222,7 +237,7 @@ export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-re
 make  %{?_smp_mflags}
 
 pushd ../build32/
-export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
@@ -240,17 +255,38 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 --disable-tests  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+%configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
+--disable-xml-docs \
+--enable-systemd \
+--enable-user-session \
+--enable-epoll \
+--with-system-socket=/run/dbus/system_bus_socket \
+--with-system-pid-file=/run/dbus/pid \
+--with-console-auth-dir=/run/console/ \
+--sysconfdir=/etc2 \
+--without-x
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 cd ../build32;
-make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+make %{?_smp_mflags} check || :
+cd ../buildavx2;
+make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1594251942
+export SOURCE_DATE_EPOCH=1634331586
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp %{_builddir}/dbus-1.12.20/COPYING %{buildroot}/usr/share/package-licenses/dbus/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
@@ -263,10 +299,19 @@ pushd %{buildroot}/usr/lib32/pkgconfig
 for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
+if [ -d %{buildroot}/usr/share/pkgconfig ]
+then
+pushd %{buildroot}/usr/share/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
+popd
+pushd ../buildavx2/
+%make_install_v3
 popd
 %make_install
 ## Remove excluded files
-rm -f %{buildroot}/usr/lib/sysusers.d/dbus.conf
+rm -f %{buildroot}*/usr/lib/sysusers.d/dbus.conf
 ## install_append content
 rm -rf %{buildroot}/etc2
 
@@ -282,6 +327,7 @@ shift 3
 make -C tools dbus-launch
 install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 ## install_append end
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -302,6 +348,7 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 /usr/bin/dbus-test-tool
 /usr/bin/dbus-update-activation-environment
 /usr/bin/dbus-uuidgen
+/usr/share/clear/optimized-elf/bin*
 
 %files config
 %defattr(-,root,root,-)
@@ -356,10 +403,15 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 %defattr(-,root,root,-)
 /usr/bin/dbus-launch.x11
 
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-dbus
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libdbus-1.so.3
 /usr/lib64/libdbus-1.so.3.19.13
+/usr/share/clear/optimized-elf/lib*
 
 %files lib32
 %defattr(-,root,root,-)
@@ -369,6 +421,7 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 %files libexec
 %defattr(-,root,root,-)
 %attr(4750,root,messagebus) /usr/libexec/dbus-daemon-launch-helper
+/usr/share/clear/optimized-elf/exec*
 
 %files license
 %defattr(0644,root,root,0755)
