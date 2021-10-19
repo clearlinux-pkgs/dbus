@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.20
-Release  : 78
+Release  : 79
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
 Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz.asc
@@ -218,7 +218,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1634331586
+export SOURCE_DATE_EPOCH=1634678089
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
 export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
@@ -257,9 +257,9 @@ make  %{?_smp_mflags}
 popd
 unset PKG_CONFIG_PATH
 pushd ../buildavx2/
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v3"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3"
-export FFLAGS="$FFLAGS -m64 -march=x86-64-v3"
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
@@ -286,7 +286,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1634331586
+export SOURCE_DATE_EPOCH=1634678089
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp %{_builddir}/dbus-1.12.20/COPYING %{buildroot}/usr/share/package-licenses/dbus/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
