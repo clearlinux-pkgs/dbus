@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.20
-Release  : 80
+Release  : 83
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
 Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz.asc
@@ -19,9 +19,9 @@ Requires: dbus-config = %{version}-%{release}
 Requires: dbus-data = %{version}-%{release}
 Requires: dbus-filemap = %{version}-%{release}
 Requires: dbus-lib = %{version}-%{release}
-Requires: dbus-libexec = %{version}-%{release}
 Requires: dbus-license = %{version}-%{release}
 Requires: dbus-services = %{version}-%{release}
+Requires: dbus-setuid = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : doxygen
 BuildRequires : expat-dev
@@ -75,8 +75,8 @@ autostart components for the dbus package.
 Summary: bin components for the dbus package.
 Group: Binaries
 Requires: dbus-data = %{version}-%{release}
-Requires: dbus-libexec = %{version}-%{release}
 Requires: dbus-config = %{version}-%{release}
+Requires: dbus-setuid = %{version}-%{release}
 Requires: dbus-license = %{version}-%{release}
 Requires: dbus-services = %{version}-%{release}
 Requires: dbus-filemap = %{version}-%{release}
@@ -154,7 +154,6 @@ filemap components for the dbus package.
 Summary: lib components for the dbus package.
 Group: Libraries
 Requires: dbus-data = %{version}-%{release}
-Requires: dbus-libexec = %{version}-%{release}
 Requires: dbus-license = %{version}-%{release}
 Requires: dbus-filemap = %{version}-%{release}
 
@@ -172,17 +171,6 @@ Requires: dbus-license = %{version}-%{release}
 lib32 components for the dbus package.
 
 
-%package libexec
-Summary: libexec components for the dbus package.
-Group: Default
-Requires: dbus-config = %{version}-%{release}
-Requires: dbus-license = %{version}-%{release}
-Requires: dbus-filemap = %{version}-%{release}
-
-%description libexec
-libexec components for the dbus package.
-
-
 %package license
 Summary: license components for the dbus package.
 Group: Default
@@ -197,6 +185,14 @@ Group: Systemd services
 
 %description services
 services components for the dbus package.
+
+
+%package setuid
+Summary: setuid components for the dbus package.
+Group: Default
+
+%description setuid
+setuid components for the dbus package.
 
 
 %prep
@@ -218,7 +214,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1636155249
+export SOURCE_DATE_EPOCH=1643312764
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
 export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
@@ -286,7 +282,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1636155249
+export SOURCE_DATE_EPOCH=1643312764
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp %{_builddir}/dbus-1.12.20/COPYING %{buildroot}/usr/share/package-licenses/dbus/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
@@ -327,7 +323,7 @@ shift 3
 make -C tools dbus-launch
 install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 ## install_append end
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name} --skip-path /usr/libexec/dbus-daemon-launch-helper
 
 %files
 %defattr(-,root,root,-)
@@ -418,11 +414,6 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 /usr/lib32/libdbus-1.so.3
 /usr/lib32/libdbus-1.so.3.19.13
 
-%files libexec
-%defattr(-,root,root,-)
-%attr(4750,root,messagebus) /usr/libexec/dbus-daemon-launch-helper
-/usr/share/clear/optimized-elf/exec*
-
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/dbus/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
@@ -437,3 +428,7 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 /usr/lib/systemd/user/dbus.service
 /usr/lib/systemd/user/dbus.socket
 /usr/lib/systemd/user/sockets.target.wants/dbus.socket
+
+%files setuid
+%defattr(-,root,root,-)
+%attr(4750,root,messagebus) /usr/libexec/dbus-daemon-launch-helper
