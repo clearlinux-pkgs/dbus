@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.20
-Release  : 83
+Release  : 84
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
 Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz.asc
