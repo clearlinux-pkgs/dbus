@@ -22,19 +22,19 @@ Configure miss: ducktype
 Configure miss: ducktype
 Configure miss: ducktype
 Configure miss: ducktype
+Configure miss: g++ option to enable C++11 features
+Configure miss: g++ option to enable C++11 features
+Configure miss: g++ option to enable C++11 features
+Configure miss: g++ option to enable C++11 features
+Configure miss: gcc options needed to detect all undeclared functions
+Configure miss: gcc options needed to detect all undeclared functions
+Configure miss: gcc options needed to detect all undeclared functions
+Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: i686-generic-linux-gnu-windres
 Configure miss: launch.h
 Configure miss: launch.h
 Configure miss: launch.h
 Configure miss: launch.h
-Configure miss: launch.h presence
-Configure miss: launch.h presence
-Configure miss: launch.h presence
-Configure miss: launch.h presence
-Configure miss: launch.h usability
-Configure miss: launch.h usability
-Configure miss: launch.h usability
-Configure miss: launch.h usability
 Configure miss: launchctl
 Configure miss: launchctl
 Configure miss: launchctl
@@ -51,26 +51,10 @@ Configure miss: sys/event.h
 Configure miss: sys/event.h
 Configure miss: sys/event.h
 Configure miss: sys/event.h
-Configure miss: sys/event.h presence
-Configure miss: sys/event.h presence
-Configure miss: sys/event.h presence
-Configure miss: sys/event.h presence
-Configure miss: sys/event.h usability
-Configure miss: sys/event.h usability
-Configure miss: sys/event.h usability
-Configure miss: sys/event.h usability
 Configure miss: sys/syslimits.h
 Configure miss: sys/syslimits.h
 Configure miss: sys/syslimits.h
 Configure miss: sys/syslimits.h
-Configure miss: sys/syslimits.h presence
-Configure miss: sys/syslimits.h presence
-Configure miss: sys/syslimits.h presence
-Configure miss: sys/syslimits.h presence
-Configure miss: sys/syslimits.h usability
-Configure miss: sys/syslimits.h usability
-Configure miss: sys/syslimits.h usability
-Configure miss: sys/syslimits.h usability
 Configure miss: whether C++ compiler accepts -Werror=unknown-warning-option
 Configure miss: whether C++ compiler accepts -Werror=unknown-warning-option
 Configure miss: whether C++ compiler accepts -Werror=unknown-warning-option
@@ -99,14 +83,6 @@ Configure miss: ws2tcpip.h
 Configure miss: ws2tcpip.h
 Configure miss: ws2tcpip.h
 Configure miss: ws2tcpip.h
-Configure miss: ws2tcpip.h presence
-Configure miss: ws2tcpip.h presence
-Configure miss: ws2tcpip.h presence
-Configure miss: ws2tcpip.h presence
-Configure miss: ws2tcpip.h usability
-Configure miss: ws2tcpip.h usability
-Configure miss: ws2tcpip.h usability
-Configure miss: ws2tcpip.h usability
 Configure miss: yelp-build
 Configure miss: yelp-build
 Configure miss: yelp-build

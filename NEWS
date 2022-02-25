@@ -1,3 +1,45 @@
+dbus 1.12.22 (2022-02-25)
+=========================
+
+Fixes:
+
+• On Linux, when using traditional (non-systemd) service activation,
+  don't log warnings about failing to reset OOM score adjustment if the
+  process is already more susceptible to the OOM killer, as user processes
+  usually are with systemd ≥ 250. (dbus#374, Debian#1004543; Simon McVittie)
+
+• On Linux, when using traditional (non-systemd) system bus activation,
+  reset the OOM score adjustment to 0 as intended.
+  If the system dbus-daemon is protected from the OOM killer, this
+  avoids that protection unintentionally being inherited by every
+  system service. (dbus#378, Simon McVittie)
+
+• Avoid malloc() after fork on non-GNU libc (dbus!181, Jean-Louis Fuchs)
+
+• Fix build with clang 13 by using Standard C offsetof where available
+  (dbus!237, Simon McVittie)
+
+• Fix build of tests on FreeBSD (dbus!167, Simon McVittie)
+
+• Make documentation build more reproducible
+  (dbus!189, dbus!238; Arnout Engelen, Simon McVittie)
+
+• On Unix, make X11 autolaunch cope with slashes in DISPLAY
+  (dbus#8, dbus#311; William Earley)
+
+• Don't try to raise RLIMIT_NOFILE beyond OPEN_MAX on macOS
+  (dbus#309, William Earley)
+
+• Fix compilation if embedded tests are enabled but verbose mode and
+  stats are both disabled (Marc-André Lureau)
+
+• On Linux, fix a race condition in the integration test for transient
+  services (Debian#1005889, dbus!256; Simon McVittie)
+
+Internal changes:
+
+• CI updates
+
 dbus 1.12.20 (2020-07-02)
 =========================
 
@@ -13,7 +55,7 @@ Maybe security fixes:
   between users of different names with the same numeric uid, so this
   configuration is not advisable on systems where D-Bus will be used.
   Thanks to Daniel Onaca.
-  (dbus#305, dbus!166; Simon McVittie)
+  (dbus#305, dbus!166, CVE-2020-35512; Simon McVittie)
 
 Other fixes:
 
