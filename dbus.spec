@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.22
-Release  : 86
+Release  : 87
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.22.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.22.tar.gz
 Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.22.tar.gz.asc
@@ -214,7 +214,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1645826029
+export SOURCE_DATE_EPOCH=1656101049
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
 export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
@@ -282,7 +282,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1645826029
+export SOURCE_DATE_EPOCH=1656101049
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp %{_builddir}/dbus-1.12.22/COPYING %{buildroot}/usr/share/package-licenses/dbus/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
@@ -323,7 +323,7 @@ shift 3
 make -C tools dbus-launch
 install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 ## install_append end
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name} --skip-path /usr/libexec/dbus-daemon-launch-helper
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name} --skip-path /usr/libexec/dbus-daemon-launch-helper
 
 %files
 %defattr(-,root,root,-)
@@ -405,9 +405,11 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libdbus-1.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libdbus-1.so.3
+/usr/lib64/glibc-hwcaps/x86-64-v3/libdbus-1.so.3.19.14
 /usr/lib64/libdbus-1.so.3
 /usr/lib64/libdbus-1.so.3.19.14
-/usr/share/clear/optimized-elf/lib*
 
 %files lib32
 %defattr(-,root,root,-)
