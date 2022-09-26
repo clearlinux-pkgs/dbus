@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.12.22
-Release  : 90
+Release  : 91
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.22.tar.gz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.22.tar.gz
 Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.12.22.tar.gz.asc
