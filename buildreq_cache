@@ -1,5 +1,6 @@
-1.12.22
+1.14.2
 doxygen
 libxslt-bin
 pkg-config
+qttools-dev
 xmlto

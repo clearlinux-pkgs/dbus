@@ -30,6 +30,7 @@ Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
+Configure miss: i686-generic-linux-gnu-file
 Configure miss: i686-generic-linux-gnu-windres
 Configure miss: launch.h
 Configure miss: launch.h
@@ -51,10 +52,6 @@ Configure miss: sys/event.h
 Configure miss: sys/event.h
 Configure miss: sys/event.h
 Configure miss: sys/event.h
-Configure miss: sys/syslimits.h
-Configure miss: sys/syslimits.h
-Configure miss: sys/syslimits.h
-Configure miss: sys/syslimits.h
 Configure miss: whether C++ compiler accepts -Werror=unknown-warning-option
 Configure miss: whether C++ compiler accepts -Werror=unknown-warning-option
 Configure miss: whether C++ compiler accepts -Werror=unknown-warning-option
@@ -71,10 +68,6 @@ Configure miss: whether to enable debugging
 Configure miss: whether to enable debugging
 Configure miss: whether to enable debugging
 Configure miss: whether to enable debugging
-Configure miss: whether va_lists can be copied by value
-Configure miss: whether va_lists can be copied by value
-Configure miss: whether va_lists can be copied by value
-Configure miss: whether va_lists can be copied by value
 Configure miss: windres
 Configure miss: windres
 Configure miss: windres
@@ -83,6 +76,9 @@ Configure miss: ws2tcpip.h
 Configure miss: ws2tcpip.h
 Configure miss: ws2tcpip.h
 Configure miss: ws2tcpip.h
+Configure miss: x86_64-generic-linux-gnu-file
+Configure miss: x86_64-generic-linux-gnu-file
+Configure miss: x86_64-generic-linux-gnu-file
 Configure miss: yelp-build
 Configure miss: yelp-build
 Configure miss: yelp-build

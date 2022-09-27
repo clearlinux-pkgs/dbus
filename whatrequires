@@ -1,4 +1,5 @@
 # This file contains recursive sources that require this package
+compat-gcr-soname1
 flatpak
 gcr
 vala
