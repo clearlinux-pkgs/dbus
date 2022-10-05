@@ -1,5 +1,5 @@
---- dbus-1.9.10/bus/main.c.org	2015-03-01 15:21:04.175051841 -0500
-+++ dbus-1.9.10/bus/main.c	2015-03-01 15:28:22.499572030 -0500
+--- dbus-1.14.2/bus/main.c~	2022-02-23 14:39:11.000000000 +0000
++++ dbus-1.14.2/bus/main.c	2022-10-05 14:10:49.919737777 +0000
 @@ -29,6 +29,7 @@
  #include <stdio.h>
  #include <stdlib.h>
@@ -8,10 +8,10 @@
  #ifdef HAVE_SIGNAL_H
  #include <signal.h>
  #endif
-@@ -644,6 +645,13 @@
- #endif /* DBUS_UNIX */
+@@ -747,6 +748,13 @@
  
    _dbus_verbose ("We are on D-Bus...\n");
+   _dbus_daemon_report_ready ();
 +  /*
 +   * during init we may have allocated and then freed memory, which
 +   * the C library will buffer for us. This is a good place to really

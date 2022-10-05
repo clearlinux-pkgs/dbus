@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.14.2
-Release  : 92
+Release  : 93
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.2.tar.xz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.2.tar.xz
 Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.2.tar.xz.asc
@@ -52,8 +52,9 @@ BuildRequires : pkgconfig(x11)
 BuildRequires : qttools-dev
 BuildRequires : xmlto
 Patch1: 0001-Add-support-for-ignore_missing-attribute-in-included.patch
-Patch2: memory.patch
-Patch3: 0002-Make-the-non-X11-dbus-launch-exec-the-X11-enabled-on.patch
+Patch2: malloc_trim.patch
+Patch3: memory.patch
+Patch4: 0002-Make-the-non-X11-dbus-launch-exec-the-X11-enabled-on.patch
 
 %description
 Sections in this file describe:
@@ -201,6 +202,7 @@ cd %{_builddir}/dbus-1.14.2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 pushd ..
 cp -a dbus-1.14.2 build32
 popd
@@ -213,12 +215,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1664289805
+export SOURCE_DATE_EPOCH=1664979222
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -281,7 +283,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1664289805
+export SOURCE_DATE_EPOCH=1664979222
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp %{_builddir}/dbus-%{version}/cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/77976f406ba34009d9ba5a43b882fe6de68e5175 || :
