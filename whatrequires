@@ -2,4 +2,5 @@
 compat-gcr-soname1
 flatpak
 gcr
+gnome-keyring
 vala

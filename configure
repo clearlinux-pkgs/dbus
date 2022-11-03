@@ -8,3 +8,4 @@
 --with-console-auth-dir=/run/console/
 --sysconfdir=/etc2
 --without-x
+--runstatedir=/run

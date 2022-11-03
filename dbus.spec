@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.14.4
-Release  : 94
+Release  : 95
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz
 Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz.asc
@@ -215,12 +215,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1664985462
+export SOURCE_DATE_EPOCH=1667513605
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$FFLAGS -fno-lto "
-export FFLAGS="$FFLAGS -fno-lto "
-export CXXFLAGS="$CXXFLAGS -fno-lto "
+export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -230,7 +230,8 @@ export CXXFLAGS="$CXXFLAGS -fno-lto "
 --with-system-pid-file=/run/dbus/pid \
 --with-console-auth-dir=/run/console/ \
 --sysconfdir=/etc2 \
---without-x
+--without-x \
+--runstatedir=/run
 make  %{?_smp_mflags}
 
 pushd ../build32/
@@ -248,7 +249,8 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 --with-system-pid-file=/run/dbus/pid \
 --with-console-auth-dir=/run/console/ \
 --sysconfdir=/etc2 \
---without-x --without-dbus-glib \
+--without-x \
+--runstatedir=/run --without-dbus-glib \
 --disable-tests  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
@@ -268,7 +270,8 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 --with-system-pid-file=/run/dbus/pid \
 --with-console-auth-dir=/run/console/ \
 --sysconfdir=/etc2 \
---without-x
+--without-x \
+--runstatedir=/run
 make  %{?_smp_mflags}
 popd
 %check
@@ -283,10 +286,10 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1664985462
+export SOURCE_DATE_EPOCH=1667513605
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
-cp %{_builddir}/dbus-%{version}/cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/77976f406ba34009d9ba5a43b882fe6de68e5175 || :
+cp %{_builddir}/dbus-%{version}/cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/77976f406ba34009d9ba5a43b882fe6de68e5175
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
