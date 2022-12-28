@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.14.4
-Release  : 95
+Release  : 96
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz
 Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz.asc
@@ -51,6 +51,9 @@ BuildRequires : pkgconfig(valgrind)
 BuildRequires : pkgconfig(x11)
 BuildRequires : qttools-dev
 BuildRequires : xmlto
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
 Patch1: 0001-Add-support-for-ignore_missing-attribute-in-included.patch
 Patch2: malloc_trim.patch
 Patch3: memory.patch
@@ -215,12 +218,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1667513605
+export SOURCE_DATE_EPOCH=1672256137
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
 %configure --disable-static --with-systemdunitdir=/usr/lib/systemd/system \
 --disable-xml-docs \
 --enable-systemd \
@@ -286,7 +289,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1667513605
+export SOURCE_DATE_EPOCH=1672256137
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
 cp %{_builddir}/dbus-%{version}/cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/77976f406ba34009d9ba5a43b882fe6de68e5175
