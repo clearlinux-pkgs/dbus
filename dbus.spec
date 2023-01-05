@@ -6,7 +6,7 @@
 #
 Name     : dbus
 Version  : 1.14.4
-Release  : 96
+Release  : 97
 URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz
 Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz
 Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz.asc
