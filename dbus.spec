@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE05AE1478F814C4F (smcv@debian.org)
 #
 Name     : dbus
-Version  : 1.14.4
-Release  : 97
-URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz
-Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz
-Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.4.tar.xz.asc
+Version  : 1.14.6
+Release  : 98
+URL      : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.6.tar.xz
+Source0  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.6.tar.xz
+Source1  : https://dbus.freedesktop.org/releases/dbus/dbus-1.14.6.tar.xz.asc
 Summary  : Free desktop message bus (uninstalled copy)
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0+
@@ -200,17 +200,17 @@ setuid components for the dbus package.
 
 
 %prep
-%setup -q -n dbus-1.14.4
-cd %{_builddir}/dbus-1.14.4
+%setup -q -n dbus-1.14.6
+cd %{_builddir}/dbus-1.14.6
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 pushd ..
-cp -a dbus-1.14.4 build32
+cp -a dbus-1.14.6 build32
 popd
 pushd ..
-cp -a dbus-1.14.4 buildavx2
+cp -a dbus-1.14.6 buildavx2
 popd
 
 %build
@@ -218,7 +218,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1672256137
+export SOURCE_DATE_EPOCH=1676067696
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
 export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
@@ -289,10 +289,10 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1672256137
+export SOURCE_DATE_EPOCH=1676067696
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dbus
-cp %{_builddir}/dbus-%{version}/cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/77976f406ba34009d9ba5a43b882fe6de68e5175
+cp %{_builddir}/dbus-%{version}/cmake/modules/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/dbus/77976f406ba34009d9ba5a43b882fe6de68e5175 || :
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -414,14 +414,14 @@ install -m755 tools/.libs/dbus-launch %{buildroot}/usr/bin/dbus-launch.x11
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/glibc-hwcaps/x86-64-v3/libdbus-1.so.3
-/usr/lib64/glibc-hwcaps/x86-64-v3/libdbus-1.so.3.32.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libdbus-1.so.3.32.2
 /usr/lib64/libdbus-1.so.3
-/usr/lib64/libdbus-1.so.3.32.1
+/usr/lib64/libdbus-1.so.3.32.2
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libdbus-1.so.3
-/usr/lib32/libdbus-1.so.3.32.1
+/usr/lib32/libdbus-1.so.3.32.2
 
 %files license
 %defattr(0644,root,root,0755)

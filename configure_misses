@@ -2,18 +2,6 @@ Configure miss: ADT API
 Configure miss: ADT API
 Configure miss: ADT API
 Configure miss: ADT API
-Configure miss: APPARMOR
-Configure miss: APPARMOR
-Configure miss: APPARMOR
-Configure miss: APPARMOR
-Configure miss: APPARMOR_2_10
-Configure miss: APPARMOR_2_10
-Configure miss: APPARMOR_2_10
-Configure miss: APPARMOR_2_10
-Configure miss: SELINUX
-Configure miss: SELINUX
-Configure miss: SELINUX
-Configure miss: SELINUX
 Configure miss: audit_log_user_avc_message in -laudit
 Configure miss: audit_log_user_avc_message in -laudit
 Configure miss: audit_log_user_avc_message in -laudit
@@ -40,6 +28,18 @@ Configure miss: launchctl
 Configure miss: launchctl
 Configure miss: launchctl
 Configure miss: launchctl
+Configure miss: libapparmor >= 2.10
+Configure miss: libapparmor >= 2.10
+Configure miss: libapparmor >= 2.10
+Configure miss: libapparmor >= 2.10
+Configure miss: libapparmor >= 2.8.95
+Configure miss: libapparmor >= 2.8.95
+Configure miss: libapparmor >= 2.8.95
+Configure miss: libapparmor >= 2.8.95
+Configure miss: libselinux >= 2.0.86
+Configure miss: libselinux >= 2.0.86
+Configure miss: libselinux >= 2.0.86
+Configure miss: libselinux >= 2.0.86
 Configure miss: struct cmsgcred
 Configure miss: struct cmsgcred
 Configure miss: struct cmsgcred
