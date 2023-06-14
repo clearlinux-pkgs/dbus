@@ -1,5 +1,5 @@
 PKG_NAME := dbus
-URL = https://dbus.freedesktop.org/releases/dbus/dbus-1.14.6.tar.xz
+URL = https://dbus.freedesktop.org/releases/dbus/dbus-1.14.8.tar.xz
 ARCHIVES = 
 
 include ../common/Makefile.common
