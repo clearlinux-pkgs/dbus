@@ -1,5 +1,6 @@
 # This file contains recursive sources that require this package
 compat-gcr-soname1
+cpdb-libs
 flatpak
 gcr
 gnome-keyring
